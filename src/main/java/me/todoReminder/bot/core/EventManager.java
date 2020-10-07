@@ -1,5 +1,6 @@
-package me.todoReminder.bot.events;
+package me.todoReminder.bot.core;
 
+import me.todoReminder.bot.events.guildMessageReceived;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;

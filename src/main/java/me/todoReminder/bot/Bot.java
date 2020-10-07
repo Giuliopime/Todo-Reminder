@@ -1,6 +1,7 @@
 package me.todoReminder.bot;
 
-import me.todoReminder.bot.events.EventManager;
+import me.todoReminder.bot.core.CommandHandler;
+import me.todoReminder.bot.core.EventManager;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
@@ -32,10 +33,12 @@ public class Bot {
                     .addEventListeners(new EventManager())
                     .build()
                     .awaitReady();
+
+            CommandHandler.registerCommands();
         } catch (LoginException e) {
             log.info("Invalid Token for ToDo Reminder!");
         } catch (InterruptedException e) {
-            log.info("ToDo Reminder thread got interrupted when booting up");
+            log.info("ToDo Reminder thread got interrupted while booting up");
         }
     }
 }

@@ -18,6 +18,7 @@ dependencies {
     compile "net.dv8tion:JDA:$jdaVersion"
     compile "ch.qos.logback:logback-classic:1.2.3"
     compile "io.github.cdimascio:java-dotenv:5.2.2"
+    compile 'io.github.classgraph:classgraph:4.1.1'
 }
 
 compileJava.options.encoding = 'UTF-8'
