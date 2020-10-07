@@ -1,6 +1,6 @@
 package me.todoReminder.bot;
 
-import me.todoReminder.bot.core.CommandHandler;
+import me.todoReminder.bot.core.commands.CommandHandler;
 import me.todoReminder.bot.core.EventManager;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -18,16 +18,14 @@ public class Bot {
         try {
             new Bot();
         } catch (Exception e) {
-            log.error("Could not complete Main Thread routine!", e);
-            log.error("Cannot continue! Exiting program...");
-            System.exit(1);
+            shutdown(null, "Could not complete Main Thread routine!", e);
         }
     }
 
     private Bot() throws Exception {
-        JDA api = null;
+        JDA jda;
         try {
-            api = JDABuilder
+            jda = JDABuilder
                     .createDefault(Config.get("TOKEN"))
                     .setActivity(Activity.watching("your tasks"))
                     .addEventListeners(new EventManager())
@@ -36,9 +34,19 @@ public class Bot {
 
             CommandHandler.registerCommands();
         } catch (LoginException e) {
-            log.info("Invalid Token for ToDo Reminder!");
+            shutdown(null, "Invalid Token for ToDo Reminder!", e);
         } catch (InterruptedException e) {
-            log.info("ToDo Reminder thread got interrupted while booting up");
+            shutdown(null, "ToDo Reminder thread got interrupted while booting up!", e);
+        } catch (IllegalArgumentException e) {
+            shutdown(null, "Couldn't load the bot commands!", e);
         }
+    }
+
+    public static void shutdown(JDA jda, String reason, Exception e) {
+        log.info("Shutting down.\nReason: {}", reason);
+        if(e != null) log.info("Error: ", e);
+
+        if(jda != null) jda.shutdown();
+        System.exit(0);
     }
 }

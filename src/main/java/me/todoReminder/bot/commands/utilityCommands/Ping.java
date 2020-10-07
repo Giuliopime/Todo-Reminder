@@ -1,6 +1,7 @@
 package me.todoReminder.bot.commands.utilityCommands;
 
-import me.todoReminder.bot.core.Command;
+import me.todoReminder.bot.core.commands.Command;
+import me.todoReminder.bot.core.commands.CommandContext;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 public class Ping extends Command {
@@ -12,7 +13,7 @@ public class Ping extends Command {
         super(name, description, usage, requiresArgs, aliases);
     }
 
-    public void run(GuildMessageReceivedEvent event, String args) {
-        event.getMessage().getChannel().sendMessage("pong!").queue();
+    public void run(CommandContext ctx) {
+        ctx.getEvent().getMessage().getChannel().sendMessage("pong!").queue();
     }
 }

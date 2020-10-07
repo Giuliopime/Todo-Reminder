@@ -1,6 +1,8 @@
-package me.todoReminder.bot.core;
+package me.todoReminder.bot.core.commands;
 
-public class Command {
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+
+public abstract class Command {
     private final String name, description, usage;
     private final boolean requiresArgs;
     private final String[] aliases;
@@ -13,6 +15,7 @@ public class Command {
         this.aliases = aliases;
     }
 
+    protected abstract void run(CommandContext ctx);
     // Getters
     public String getName() {
         return name;
