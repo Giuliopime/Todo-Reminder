@@ -3,9 +3,15 @@ package me.todoReminder.bot.core.commands;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ScanResult;
+import me.todoReminder.bot.Config;
+import me.todoReminder.bot.core.EmbedReplies;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.EmbedType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.naming.InsufficientResourcesException;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,15 +56,30 @@ public class CommandHandler {
 
     public static void runCommand(CommandContext ctx) {
         String commandName = ctx.getCommandName();
+        // Get the command
         Command command = COMMANDS.get(commandName);
+        // If the command isn't found check the aliases
         if(command == null) {
             String alias = ALIASES.get(commandName.toLowerCase());
             if(alias != null) command = COMMANDS.get(alias);
         }
+
         if(command != null) {
-            command.run(ctx);
+            // Command Categories
+            if(command.getCategory().equals(CommandCategory.DEVELOPER)) {
+                if(!ctx.getMember().getId().equalsIgnoreCase(Config.get("OWNER"))) {
+                    ctx.getTextChannel().sendMessage(EmbedReplies.warningEmbed().setDescription("This command is restricted to the developers of the bot.").build()).queue();
+                    return;
+                }
+            }
+            try {
+                command.run(ctx);
+            } catch (Exception e) {
+                ctx.getTextChannel().sendMessage(EmbedReplies.errorEmbed().setDescription("There has been an error in the execution of the command.\nThe developers are already tracking the issue.").build()).queue();
+            }
         }
     }
+
 
     public static Map<String, Command> getCommands() {
         return COMMANDS;

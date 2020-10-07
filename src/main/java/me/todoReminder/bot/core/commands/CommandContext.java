@@ -1,10 +1,9 @@
 package me.todoReminder.bot.core.commands;
 
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.entities.GuildChannel;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import org.w3c.dom.Text;
 
 import java.util.Arrays;
 
@@ -45,5 +44,9 @@ public class CommandContext {
 
     public TextChannel getTextChannel() {
         return event.getChannel();
+    }
+
+    public Member getMember() {
+        return event.getMember();
     }
 }
