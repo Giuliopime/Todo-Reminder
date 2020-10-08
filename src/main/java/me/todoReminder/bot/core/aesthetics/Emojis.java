@@ -1,7 +1,7 @@
 package me.todoReminder.bot.core.aesthetics;
 
-public interface Emojis {
-    String
+public final class Emojis {
+    public static final String
             todo = "",
             completed = "",
             removed = "",

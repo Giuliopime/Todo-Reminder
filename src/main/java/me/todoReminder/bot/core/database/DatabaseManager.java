@@ -1,13 +1,13 @@
 package me.todoReminder.bot.core.database;
 
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
+import com.mongodb.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.UnknownHostException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 
 public class DatabaseManager {
@@ -15,7 +15,7 @@ public class DatabaseManager {
     private static DatabaseManager instance;
     private MongoClient mongoClient;
     private DB db;
-    private DBCollection usersC;
+    private DBCollection users;
 
     private DatabaseManager() {}
 
@@ -29,7 +29,7 @@ public class DatabaseManager {
     public void init() throws UnknownHostException {
         MongoClient mongoClient = new MongoClient();
         db = mongoClient.getDB("todoReminderDB");
-        usersC = db.getCollection("users");
+        users = db.getCollection("users");
     }
 
     public MongoClient getMongoClient() {
@@ -38,5 +38,21 @@ public class DatabaseManager {
 
     public void close() {
         if(mongoClient != null) mongoClient.close();
+    }
+
+    public DBObject getUser(String userID) {
+        DBObject query = new BasicDBObject("userID", userID);
+        DBObject user = users.find(query).one();
+
+        if(user == null) {
+            List<BasicDBObject> lists = Collections.emptyList();
+            List<BasicDBObject> reminders = Collections.emptyList();
+            user = new BasicDBObject("userID", userID)
+                    .append("prefix", "t.")
+                    .append("lists", lists)
+                    .append("reminders", reminders);
+            users.insert(user);
+        }
+        return user;
     }
 }

@@ -1,7 +1,8 @@
 package me.todoReminder.bot.core;
 
-import me.todoReminder.bot.events.GuildMessageReceived;
+import me.todoReminder.bot.events.MessageReceived;
 import net.dv8tion.jda.api.events.ReadyEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
@@ -19,6 +20,11 @@ public class EventManager extends ListenerAdapter {
 
     @Override
     public void onGuildMessageReceived(@NotNull GuildMessageReceivedEvent event) {
-        GuildMessageReceived.execute(event);
+        MessageReceived.execute(event, null);
+    }
+
+    @Override
+    public void onMessageReceived(@NotNull MessageReceivedEvent event) {
+        MessageReceived.execute(null, event);
     }
 }

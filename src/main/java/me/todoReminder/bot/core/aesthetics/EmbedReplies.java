@@ -3,8 +3,8 @@ package me.todoReminder.bot.core.aesthetics;
 import net.dv8tion.jda.api.EmbedBuilder;
 import java.time.Instant;
 
-public interface EmbedReplies extends Colors{
-    static EmbedBuilder errorEmbed() {
+public final class EmbedReplies{
+    public static EmbedBuilder errorEmbed() {
         return new EmbedBuilder()
                 .setTitle("❗️ Error ❗️")
                 .setColor(Colors.error)
@@ -12,7 +12,7 @@ public interface EmbedReplies extends Colors{
                 .setTimestamp(Instant.now());
     }
 
-    static EmbedBuilder warningEmbed() {
+    public static EmbedBuilder warningEmbed() {
         return new EmbedBuilder()
                 .setTitle("⚠️ Warning ⚠️")
                 .setColor(Colors.warning)

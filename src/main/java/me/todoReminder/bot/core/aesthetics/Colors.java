@@ -2,8 +2,8 @@ package me.todoReminder.bot.core.aesthetics;
 
 import java.awt.*;
 
-public interface Colors {
-    Color error = Color.decode("#d62828");
-    Color warning = Color.decode("#fcbf49");
-    Color info = Color.decode("#003049");
+public final class Colors {
+    public static final Color error = Color.decode("#d62828");
+    public static final Color warning = Color.decode("#fcbf49");
+    public static final Color info = Color.decode("#003049");
 }
