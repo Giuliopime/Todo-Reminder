@@ -1,13 +1,11 @@
 package me.todoReminder.bot.core.commands;
 
-import com.mongodb.DBObject;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-
-import java.util.Arrays;
+import org.bson.Document;
 
 public class CommandContext {
     private final GuildMessageReceivedEvent guildEvent;
@@ -15,10 +13,10 @@ public class CommandContext {
     private final String commandName;
     private final String[] args;
     private final JDA jda;
-    private final DBObject userData;
+    private final Document userData;
 
 
-    public CommandContext(GuildMessageReceivedEvent guildEvent, MessageReceivedEvent dmEvent, String commandName, String[] args, DBObject userData) {
+    public CommandContext(GuildMessageReceivedEvent guildEvent, MessageReceivedEvent dmEvent, String commandName, String[] args, Document userData) {
         this.guildEvent = guildEvent;
         this.dmEvent = dmEvent;
         this.commandName = commandName;
@@ -56,5 +54,9 @@ public class CommandContext {
 
     public Member getMember() {
         return guildEvent.getMember();
+    }
+
+    public Document getUserData() {
+        return userData;
     }
 }

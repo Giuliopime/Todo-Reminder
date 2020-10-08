@@ -17,6 +17,6 @@ public class Ping extends Command {
     }
 
     public void run(CommandContext ctx) {
-        ctx.getEvent().getMessage().getChannel().sendMessage("pong!").queue();
+        ctx.getTextChannel().sendMessage("pong!").queue();
     }
 }

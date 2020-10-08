@@ -19,4 +19,10 @@ public final class EmbedReplies{
                 .setFooter("Use t.help for assistance")
                 .setTimestamp(Instant.now());
     }
+
+    public static EmbedBuilder infoEmbed() {
+        return new EmbedBuilder()
+                .setColor(Colors.info)
+                .setTimestamp(Instant.now());
+    }
 }

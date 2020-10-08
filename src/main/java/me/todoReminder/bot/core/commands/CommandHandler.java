@@ -35,6 +35,7 @@ public class CommandHandler {
                             throw new IllegalArgumentException("Duplicate alias " + alias);
                 }
             }
+            log.info("Loaded all commands successfully!");
         } catch (Exception e) {
             throw new IllegalArgumentException("Bot commands loading error:\n" + e);
         }

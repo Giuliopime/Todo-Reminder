@@ -1,13 +1,14 @@
 package me.todoReminder.bot.events;
 
 import com.mongodb.DBObject;
-import me.todoReminder.bot.core.commands.Command;
 import me.todoReminder.bot.core.commands.CommandContext;
 import me.todoReminder.bot.core.commands.CommandHandler;
 import me.todoReminder.bot.core.database.DatabaseManager;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import org.bson.Document;
 
+import javax.print.Doc;
 import java.util.Arrays;
 
 public class MessageReceived {
@@ -17,14 +18,14 @@ public class MessageReceived {
             messageContent = guildEvent.getMessage().getContentRaw();
             userID = guildEvent.getAuthor().getId();
 
-            DBObject userData = DatabaseManager.getInstance().getUser(userID);
+            Document userData = DatabaseManager.getInstance().getUser(userID);
             String prefix = userData.get("prefix").toString();
 
             if(!messageContent.startsWith(prefix)) return;
 
-            final String[] splittedMessage = messageContent.substring(prefix.length()).split("/ +/");
-            final String commandName = splittedMessage[0];
-            String[] args = Arrays.copyOfRange(splittedMessage, 1, splittedMessage.length);
+            final String[] splitMessage = messageContent.substring(prefix.length()).split("/ +/");
+            final String commandName = splitMessage[0];
+            String[] args = Arrays.copyOfRange(splitMessage, 1, splitMessage.length);
 
             if(!CommandHandler.isCommand(commandName)) return;
 
