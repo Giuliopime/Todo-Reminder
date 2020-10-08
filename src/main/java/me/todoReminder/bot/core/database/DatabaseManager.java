@@ -26,10 +26,14 @@ public class DatabaseManager {
         return instance;
     }
 
-    public void init() throws UnknownHostException {
-        MongoClient mongoClient = new MongoClient();
-        db = mongoClient.getDB("todoReminderDB");
-        users = db.getCollection("users");
+    public void init() {
+        try {
+            MongoClient mongoClient = new MongoClient();
+            db = mongoClient.getDB("todoReminderDB");
+            users = db.getCollection("users");
+        } catch (UnknownHostException e) {
+            throw new IllegalArgumentException("Error connecting to mongoDB:\n", e);
+        }
     }
 
     public MongoClient getMongoClient() {

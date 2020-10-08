@@ -49,6 +49,26 @@ public class CommandHandler {
         return command != null;
     }
 
+    public static boolean checkCategory(CommandContext ctx) {
+        Command command = COMMANDS.get(ctx.getCommandName());
+
+        if(command.getCategory().equals(CommandCategory.DEVELOPER))
+            if(!ctx.getMember().getId().equalsIgnoreCase(Config.get("OWNER"))) {
+                ctx.getTextChannel().sendMessage(EmbedReplies.warningEmbed().setDescription("This command is restricted to the developers of the bot.").build()).queue();
+                return false;
+            }
+        return true;
+    }
+
+    public static boolean checkArgs(CommandContext ctx) {
+        Command command = COMMANDS.get(ctx.getCommandName());
+
+        if(command.requiresArgs() && ctx.getArgs() == null) {
+            ctx.getTextChannel().sendMessage(EmbedReplies.errorEmbed().setDescription("Invalid usage of the command.\nThe correct usage would be:\n" + command.getUsageExample(ctx.getPrefix())).build()).queue();
+            return false;
+        }
+        return true;
+    }
 
     public static void runCommand(CommandContext ctx) {
         String commandName = ctx.getCommandName();

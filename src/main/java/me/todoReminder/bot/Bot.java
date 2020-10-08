@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.security.auth.login.LoginException;
+import java.rmi.UnknownHostException;
 
 
 public class Bot {
@@ -24,7 +25,7 @@ public class Bot {
     }
 
     private Bot() throws Exception {
-        JDA jda;
+        JDA jda = null;
         try {
             jda = JDABuilder
                     .createDefault(Config.get("TOKEN"))
@@ -34,12 +35,15 @@ public class Bot {
                     .awaitReady();
 
             CommandHandler.registerCommands();
+
+            DatabaseManager db = DatabaseManager.getInstance();
+            db.init();
         } catch (LoginException e) {
             shutdown(null, "Invalid Token for ToDo Reminder!", e);
         } catch (InterruptedException e) {
             shutdown(null, "ToDo Reminder thread got interrupted while booting up!", e);
         } catch (IllegalArgumentException e) {
-            shutdown(null, "Couldn't load the bot commands!", e);
+            shutdown(jda, "commands / db error!", e);
         }
     }
 
