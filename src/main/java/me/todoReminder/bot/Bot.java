@@ -2,6 +2,7 @@ package me.todoReminder.bot;
 
 import me.todoReminder.bot.core.commands.CommandHandler;
 import me.todoReminder.bot.core.EventManager;
+import me.todoReminder.bot.core.database.DatabaseManager;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
@@ -47,6 +48,8 @@ public class Bot {
         if(e != null) log.info("Error: ", e);
 
         if(jda != null) jda.shutdown();
+
+        DatabaseManager.getInstance().close();
         System.exit(0);
     }
 }
