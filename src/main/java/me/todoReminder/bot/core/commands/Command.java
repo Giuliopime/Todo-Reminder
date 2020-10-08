@@ -1,9 +1,7 @@
 package me.todoReminder.bot.core.commands;
 
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-
 public abstract class Command {
-    private final String name, description, usage;
+    public final String name, description, usage;
     private final CommandCategory category;
     private final boolean requiresArgs;
     private final String[] aliases;

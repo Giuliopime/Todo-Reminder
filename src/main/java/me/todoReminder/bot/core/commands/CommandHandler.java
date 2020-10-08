@@ -4,14 +4,10 @@ import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ScanResult;
 import me.todoReminder.bot.Config;
-import me.todoReminder.bot.core.EmbedReplies;
-import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.EmbedType;
+import me.todoReminder.bot.core.aesthetics.EmbedReplies;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.naming.InsufficientResourcesException;
-import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 

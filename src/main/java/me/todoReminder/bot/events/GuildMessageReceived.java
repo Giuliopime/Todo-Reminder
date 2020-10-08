@@ -7,9 +7,10 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
-public class guildMessageReceived {
-    private String messageContentRaw;
-    public guildMessageReceived(GuildMessageReceivedEvent event) {
+public class GuildMessageReceived {
+    private static String messageContentRaw;
+
+    public static void execute(GuildMessageReceivedEvent event) {
         if(event.getAuthor().isBot()) return;
         messageContentRaw = event.getMessage().getContentRaw();
         String prefix = "t.";

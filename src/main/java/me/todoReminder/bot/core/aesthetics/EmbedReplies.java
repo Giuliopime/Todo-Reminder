@@ -1,15 +1,15 @@
-package me.todoReminder.bot.core;
+package me.todoReminder.bot.core.aesthetics;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 
 import java.awt.*;
 import java.time.Instant;
 
-public class EmbedReplies {
+public class EmbedReplies implements Colors{
     public static EmbedBuilder errorEmbed() {
         return new EmbedBuilder()
                 .setTitle("❗️ Error ❗️")
-                .setColor(Color.RED)
+                .setColor(Colors.error)
                 .setFooter("Use t.help for assistance")
                 .setTimestamp(Instant.now());
     }
@@ -17,7 +17,7 @@ public class EmbedReplies {
     public static EmbedBuilder warningEmbed() {
         return new EmbedBuilder()
                 .setTitle("⚠️ Warning ⚠️")
-                .setColor(Color.YELLOW)
+                .setColor(Colors.warning)
                 .setFooter("Use t.help for assistance")
                 .setTimestamp(Instant.now());
     }
