@@ -26,7 +26,10 @@ public class MessageReceived {
 
         // Check the prefix (not required in DMs)
         String prefix = userData.get("prefix").toString();
-        if(!messageContent.startsWith(prefix)) return;
+        if(!messageContent.startsWith(prefix)) {
+            if(guildEvent != null) return;
+            else prefix = "";
+        }
 
         String commandName = messageContent.substring(prefix.length()).split(" +")[0];
         String args = messageContent.substring(prefix.length() + commandName.length()).trim();
