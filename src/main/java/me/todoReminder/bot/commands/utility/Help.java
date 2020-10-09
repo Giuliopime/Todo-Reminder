@@ -65,8 +65,10 @@ public class Help extends Command {
         }
         else if(command != null) {
             String aliases = command.getAliases() != null ? "`" + String.join("`, `", command.getAliases()) : "No aliases";
-            if(!aliases.equalsIgnoreCase("No aliases")) aliases = aliases.contains("`, `") ? aliases.substring(0, aliases.length()-1) : aliases;
-            if(!aliases.endsWith("`")) aliases = aliases + "`";
+            if(!aliases.equalsIgnoreCase("No aliases")) {
+                aliases = aliases.contains("`, `") ? aliases.substring(0, aliases.length()-1) : aliases;
+                if(!aliases.endsWith("`")) aliases = aliases + "`";
+            }
 
             eb.setTitle("Command: "+command.getName())
                     .setDescription(command.getDescription())
@@ -74,7 +76,7 @@ public class Help extends Command {
                     .addField("Aliases", aliases, false)
                     .setFooter("Arguments inside [] parenthesis are mandatory, those inside () parenthesis are optional");
         }
-        else if(commandCategory != null) {
+        else {
             eb.setTitle("Command Category: "+ commandCategory.name().toLowerCase().substring(0, 1).toUpperCase() + commandCategory.name().toLowerCase().substring(1, commandCategory.name().length()));
 
             StringBuilder commandList = new StringBuilder();
