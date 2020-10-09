@@ -7,8 +7,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.bson.Document;
 
 public class CommandContext {
-    private final GuildMessageReceivedEvent guildEvent;
-    private final MessageReceivedEvent dmEvent;
+    private final MessageReceivedEvent event;
     private final String commandName;
     private final String args;
     private final JDA jda;
@@ -16,29 +15,18 @@ public class CommandContext {
     private final MessageChannel channel;
 
 
-    public CommandContext(GuildMessageReceivedEvent guildEvent, MessageReceivedEvent dmEvent, String commandName, String args, Document userData) {
-        this.guildEvent = guildEvent;
-        this.dmEvent = dmEvent;
+    public CommandContext(MessageReceivedEvent event, String commandName, String args, Document userData) {
+        this.event = event;
         this.commandName = commandName;
         this.args = args;
         this.userData = userData;
-        if(guildEvent != null) {
-            jda = guildEvent.getJDA();
-            channel = guildEvent.getChannel();
-        }
-        else {
-            jda = dmEvent.getJDA();
-            channel = dmEvent.getChannel();
-        }
+        jda = event.getJDA();
+        channel = event.getChannel();
     }
 
     // Get full events
-    public GuildMessageReceivedEvent getGuildEvent() {
-        return guildEvent;
-    }
-
-    public MessageReceivedEvent getDMEvent() {
-        return dmEvent;
+    public MessageReceivedEvent getEvent() {
+        return event;
     }
 
     public void sendMessage(Message m) {
@@ -58,13 +46,11 @@ public class CommandContext {
     }
 
     public User getUser() {
-        if(guildEvent != null) return guildEvent.getMessage().getAuthor();
-        else return dmEvent.getAuthor();
+        return event.getAuthor();
     }
 
     public Message getMessage() {
-        if(guildEvent != null) return guildEvent.getMessage();
-        else return dmEvent.getMessage();
+        return event.getMessage();
     }
 
     // Database

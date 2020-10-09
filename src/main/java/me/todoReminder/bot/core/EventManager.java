@@ -4,6 +4,7 @@ import me.todoReminder.bot.events.MessageReceived;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -19,12 +20,7 @@ public class EventManager extends ListenerAdapter {
     }
 
     @Override
-    public void onGuildMessageReceived(@NotNull GuildMessageReceivedEvent event) {
-        MessageReceived.execute(event, null);
-    }
-
-    @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-        MessageReceived.execute(null, event);
+        MessageReceived.execute(event);
     }
 }
