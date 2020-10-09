@@ -57,8 +57,9 @@ public class CommandContext {
         return channel;
     }
 
-    public Member getMember() {
-        return guildEvent.getMember();
+    public User getUser() {
+        if(guildEvent != null) return guildEvent.getMessage().getAuthor();
+        else return dmEvent.getAuthor();
     }
 
     public Message getMessage() {

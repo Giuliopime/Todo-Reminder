@@ -25,8 +25,8 @@ public class MessageReceived {
         Document userData = DatabaseManager.getInstance().getUser(userID);;
 
         // Check the prefix (not required in DMs)
-        String prefix = guildEvent != null ? userData.get("prefix").toString() : "";
-        if(!prefix.isEmpty() && !messageContent.startsWith(prefix)) return;
+        String prefix = userData.get("prefix").toString();
+        if(!messageContent.startsWith(prefix)) return;
 
         String commandName = messageContent.substring(prefix.length()).split(" +")[0];
         String args = messageContent.substring(prefix.length() + commandName.length()).trim();

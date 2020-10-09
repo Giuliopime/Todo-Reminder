@@ -54,7 +54,7 @@ public class CommandHandler {
         Command command = COMMANDS.get(ctx.getCommandName());
 
         if(command.getCategory().equals(CommandCategory.DEVELOPER))
-            if(!ctx.getMember().getId().equalsIgnoreCase(Config.get("OWNER"))) {
+            if(!ctx.getUser().getId().equalsIgnoreCase(Config.get("OWNER"))) {
                 ctx.sendMessage(EmbedReplies.warningEmbed().setDescription("This command is restricted to the developers of the bot.").build());
                 return false;
             }
@@ -93,7 +93,7 @@ public class CommandHandler {
         if(command != null) {
             // Command Categories
             if(command.getCategory().equals(CommandCategory.DEVELOPER)) {
-                if(!ctx.getMember().getId().equalsIgnoreCase(Config.get("OWNER"))) {
+                if(!ctx.getUser().getId().equalsIgnoreCase(Config.get("OWNER"))) {
                     ctx.sendMessage(EmbedReplies.warningEmbed().setDescription("This command is restricted to the developers of the bot.").build());
                     return;
                 }
