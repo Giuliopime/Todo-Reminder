@@ -2,6 +2,7 @@ package me.todoReminder.bot.core.commands;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -25,6 +26,7 @@ public class CommandContext {
         jda = guildEvent.getJDA();
     }
 
+    // Get full events
     public GuildMessageReceivedEvent getGuildEvent() {
         return guildEvent;
     }
@@ -33,9 +35,30 @@ public class CommandContext {
         return dmEvent;
     }
 
+    // Event properties
+    public TextChannel getTextChannel() {
+        return guildEvent.getChannel();
+    }
+
+    public Member getMember() {
+        return guildEvent.getMember();
+    }
+
+    public Message getMessage() {
+        if(guildEvent != null) return guildEvent.getMessage();
+        else return dmEvent.getMessage();
+    }
+
+    // Database
+    public Document getUserData() {
+        return userData;
+    }
+
     public String getPrefix() {
         return userData.get("prefix").toString();
     }
+
+
     public String getCommandName() {
         return commandName;
     }
@@ -46,17 +69,5 @@ public class CommandContext {
 
     public JDA getJda() {
         return jda;
-    }
-
-    public TextChannel getTextChannel() {
-        return guildEvent.getChannel();
-    }
-
-    public Member getMember() {
-        return guildEvent.getMember();
-    }
-
-    public Document getUserData() {
-        return userData;
     }
 }

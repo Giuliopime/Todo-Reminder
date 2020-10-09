@@ -1,5 +1,6 @@
 package me.todoReminder.bot.commands.utility;
 
+import me.todoReminder.bot.core.aesthetics.EmbedReplies;
 import me.todoReminder.bot.core.commands.Command;
 import me.todoReminder.bot.core.commands.CommandCategory;
 import me.todoReminder.bot.core.commands.CommandContext;
@@ -17,6 +18,6 @@ public class Invite extends Command {
     }
 
     public void run(CommandContext ctx) {
-
+        ctx.getTextChannel().sendMessage(EmbedReplies.infoEmbed().setTitle("Invite me!", "url").build()).queue();
     }
 }
