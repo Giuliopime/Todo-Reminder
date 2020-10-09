@@ -11,12 +11,12 @@ public class CommandContext {
     private final GuildMessageReceivedEvent guildEvent;
     private final MessageReceivedEvent dmEvent;
     private final String commandName;
-    private final String[] args;
+    private final String args;
     private final JDA jda;
     private final Document userData;
 
 
-    public CommandContext(GuildMessageReceivedEvent guildEvent, MessageReceivedEvent dmEvent, String commandName, String[] args, Document userData) {
+    public CommandContext(GuildMessageReceivedEvent guildEvent, MessageReceivedEvent dmEvent, String commandName, String args, Document userData) {
         this.guildEvent = guildEvent;
         this.dmEvent = dmEvent;
         this.commandName = commandName;
@@ -40,7 +40,7 @@ public class CommandContext {
         return commandName;
     }
 
-    public String[] getArgs() {
+    public String getArgs() {
         return args;
     }
 

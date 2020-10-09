@@ -19,7 +19,6 @@ public class Prefix extends Command {
     }
 
     public void run(CommandContext ctx) {
-        System.out.println(ctx.getArgs());
         if(ctx.getArgs() == null) {
             String prefix = ctx.getPrefix();
             ctx.getTextChannel().sendMessage(EmbedReplies.infoEmbed()

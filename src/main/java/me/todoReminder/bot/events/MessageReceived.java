@@ -1,6 +1,7 @@
 package me.todoReminder.bot.events;
 
 import com.mongodb.DBObject;
+import jdk.jfr.DataAmount;
 import me.todoReminder.bot.core.commands.CommandContext;
 import me.todoReminder.bot.core.commands.CommandHandler;
 import me.todoReminder.bot.core.database.DatabaseManager;
@@ -9,6 +10,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.bson.Document;
 
 import javax.print.Doc;
+import java.awt.image.DataBuffer;
 import java.util.Arrays;
 
 public class MessageReceived {
@@ -23,11 +25,12 @@ public class MessageReceived {
 
             if(!messageContent.startsWith(prefix)) return;
 
-            final String[] splitMessage = messageContent.substring(prefix.length()).split("/ +/");
-            final String commandName = splitMessage[0];
-            String[] args = Arrays.copyOfRange(splitMessage, 1, splitMessage.length);
+            String commandName = messageContent.substring(prefix.length()).split(" +")[0];
+            String args = messageContent.substring(prefix.length() + commandName.length()).trim();
+            if(args.isEmpty()) args = null;
 
-            if(!CommandHandler.isCommand(commandName)) return;
+            commandName = CommandHandler.isCommand(commandName);
+            if(commandName == null) return;
 
             CommandContext ctx = new CommandContext(guildEvent, dmEvent, commandName, args, userData);
             if(!CommandHandler.checkCategory(ctx)) return;

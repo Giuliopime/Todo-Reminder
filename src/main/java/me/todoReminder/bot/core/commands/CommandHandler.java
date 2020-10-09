@@ -41,13 +41,13 @@ public class CommandHandler {
         }
     }
 
-    public static boolean isCommand(String commandName) {
+    public static String isCommand(String commandName) {
         Command command = COMMANDS.get(commandName.toLowerCase());
         if(command == null) {
             String alias = ALIASES.get(commandName.toLowerCase());
             if(alias != null) command = COMMANDS.get(alias);
         }
-        return command != null;
+        return command != null ? command.getName() : null;
     }
 
     public static boolean checkCategory(CommandContext ctx) {
@@ -98,7 +98,7 @@ public class CommandHandler {
     }
 
 
-    public static Map<String, Command> getCommands() {
-        return COMMANDS;
+    public static Command[] getCommands() {
+        return COMMANDS.values().toArray(new Command[0]);
     }
 }
