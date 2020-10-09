@@ -25,13 +25,13 @@ public class CommandHandler {
                 Command command = (Command) cls.loadClass().getDeclaredConstructor().newInstance();
 
                 // Add the command to the COMMAND map if absent, if not throw an exeption
-                if(COMMANDS.putIfAbsent(command.getName(), command) != null)
+                if(COMMANDS.putIfAbsent(command.getName().toLowerCase(), command) != null)
                     throw new IllegalArgumentException("Duplicate command " + command.getName());
 
                 // Register the aliases of the commands in the ALIASES map, throws an expection if the alias is already present in the map
                 if(command.getAliases() != null) {
                     for(String alias: command.getAliases())
-                        if(ALIASES.putIfAbsent(alias, command.getName()) != null)
+                        if(ALIASES.putIfAbsent(alias.toLowerCase(), command.getName().toLowerCase()) != null)
                             throw new IllegalArgumentException("Duplicate alias " + alias);
                 }
             }
@@ -59,6 +59,15 @@ public class CommandHandler {
                 return false;
             }
         return true;
+    }
+
+    public static Command getCommand(String commandName) {
+        Command command = COMMANDS.get(commandName.toLowerCase());
+        if(command == null) {
+            String alias = ALIASES.get(commandName.toLowerCase());
+            if(alias != null) command = COMMANDS.get(alias);
+        }
+        return command;
     }
 
     public static boolean checkArgs(CommandContext ctx) {
@@ -93,6 +102,7 @@ public class CommandHandler {
                 command.run(ctx);
             } catch (Exception e) {
                 ctx.getTextChannel().sendMessage(EmbedReplies.errorEmbed().setDescription("There has been an error in the execution of the command.\nThe developers are already tracking the issue.").build()).queue();
+                log.error("A command generated an error", e);
             }
         }
     }

@@ -1,5 +1,6 @@
 package me.todoReminder.bot.commands.utility;
 
+import ch.qos.logback.core.util.StringCollectionUtil;
 import me.todoReminder.bot.core.aesthetics.EmbedReplies;
 import me.todoReminder.bot.core.commands.Command;
 import me.todoReminder.bot.core.commands.CommandCategory;
@@ -21,7 +22,25 @@ public class Help extends Command {
 
     public void run(CommandContext ctx) {
         EmbedBuilder eb = EmbedReplies.infoEmbed();
-        if(ctx.getArgs() == null) {
+
+        String firstArg = ctx.getArgs() != null ? ctx.getArgs().split(" +")[0] : null;
+
+        Command command = null;
+        CommandCategory commandCategory = null;
+        if(firstArg != null) {
+            command = CommandHandler.getCommand(firstArg);
+
+            if(command == null) {
+                for(CommandCategory cat: CommandCategory.values()) {
+                    if (firstArg.equalsIgnoreCase(cat.name())) {
+                        commandCategory = cat;
+                        break;
+                    }
+                }
+            }
+        }
+
+        if(command == null && commandCategory == null) {
             eb.setTitle("ToDo & Reminder Help")
                     .setDescription("Here is all list of all my commands listed by category:")
                     .setFooter("Use "+ctx.getPrefix()+"help [commandName] for help with a specific command.");
@@ -43,8 +62,32 @@ public class Help extends Command {
             eb.addField("Utility:", utilityC.substring(0, utilityC.length()-2), false);
             eb.addField("ToDo:", todoC.substring(0, todoC.length()-2), false);
             eb.addField("Reminder:", reminderC.substring(0, reminderC.length()-2), false);
-
-            ctx.getTextChannel().sendMessage(eb.build()).queue();
         }
+        else if(command != null) {
+            String aliases = command.getAliases() != null ? "`" + String.join("`, `", command.getAliases()) : "No aliases";
+            if(!aliases.equalsIgnoreCase("No aliases")) aliases = aliases.contains("`, `") ? aliases.substring(0, aliases.length()-1) : aliases;
+            if(!aliases.endsWith("`")) aliases = aliases + "`";
+
+            eb.setTitle("Command: "+command.getName())
+                    .setDescription(command.getDescription())
+                    .addField("Usage", command.getUsageExample(ctx.getPrefix()), false)
+                    .addField("Aliases", aliases, false)
+                    .setFooter("Arguments inside [] parenthesis are mandatory, those inside () parenthesis are optional");
+        }
+        else if(commandCategory != null) {
+            eb.setTitle("Command Category: "+ commandCategory.name().toLowerCase().substring(0, 1).toUpperCase() + commandCategory.name().toLowerCase().substring(1, commandCategory.name().length()));
+
+            StringBuilder commandList = new StringBuilder();
+            for(Command c: CommandHandler.getCommands()) {
+                if (c.getCategory().equals(commandCategory))
+                    commandList.append("`").append(c.getName()).append("`, ");
+            }
+
+            commandList.delete(commandList.length() - 2, commandList.length());
+
+            eb.setDescription(commandList);
+        }
+
+        ctx.getTextChannel().sendMessage(eb.build()).queue();
     }
 }

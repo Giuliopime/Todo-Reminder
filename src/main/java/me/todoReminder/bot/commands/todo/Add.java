@@ -9,7 +9,7 @@ public class Add extends Command {
             description = "Add a task to a ToDo list" +
                     "\nIf you have multiple ToDo lists you can quickly select one with the flag `--number`" +
                     "\nExample: `t.add upload YT video --1`",
-            usage = "[task's text] (flags | See `t.help add`";
+            usage = "[task's text] (flags | See t.help add)";
     private static final CommandCategory category = CommandCategory.TODO;
     private static final boolean requiresArgs = true;
     private static final String[] aliases = {"a"};

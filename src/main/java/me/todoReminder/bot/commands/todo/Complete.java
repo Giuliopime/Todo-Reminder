@@ -9,7 +9,7 @@ public class Complete extends Command {
             description = "Mark a task as completed" +
                     "\nIf you have multiple ToDo lists you can quickly select one with the flag `--number`" +
                     "\nExample: `t.complete upload YT --1`",
-            usage = "[task number / task text] (flags | See `t.help complete`)";
+            usage = "[task number / task text] (flags | See t.help complete)";
     private static final CommandCategory category = CommandCategory.TODO;
     private static final boolean requiresArgs = true;
     private static final String[] aliases = {"c"};

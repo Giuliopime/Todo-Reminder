@@ -17,7 +17,7 @@ public class RemindMe extends Command {
                     "\n`2h0m` will be 2 hours and 30 minutes" +
                     "\n`1d2h` will be 1 day 2 hours" +
                     "\n`2h --d` will remind you every day at the calculated time. For example, if this command is used at 12:00 the bot will remind you every day at 14:00",
-            usage ="[message] [time: `d`-`h`-`m` | default is `h`] (flags | See `t.help remindMe`)";
+            usage ="[message] [time: d-h-m | default is h] (flags | See t.help remindMe)";
     private static final CommandCategory category = CommandCategory.REMINDER;
     private static final boolean requiresArgs = true;
     private static final String[] aliases = {"rm"};

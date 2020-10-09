@@ -9,7 +9,7 @@ public class Delete extends Command {
             description = "Delete a ToDo list" +
                     "\nIf you have multiple ToDo lists you can quickly select one with the flag `--number`" +
                     "\nExample: `t.delete --1`",
-            usage = "[task number / task text] (flags | See `t.help delete`)";
+            usage = "[task number / task text] (flags | See t.help delete)";
     private static final CommandCategory category = CommandCategory.TODO;
     private static final boolean requiresArgs = true;
     private static final String[] aliases = {"d"};

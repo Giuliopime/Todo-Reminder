@@ -1,7 +1,7 @@
 package me.todoReminder.bot.core.commands;
 
 public abstract class Command {
-    public final String name, description, usage;
+    private final String name, description, usage;
     private final CommandCategory category;
     private final boolean requiresArgs;
     private final String[] aliases;
@@ -18,8 +18,9 @@ public abstract class Command {
     protected abstract void run(CommandContext ctx);
     // Getters
     public String getUsageExample(String prefix) {
-        return prefix + name + " " + usage;
+        return "`"+ prefix + name + (usage != null ? " " + usage : "")+"`";
     }
+
     public String getName() {
         return name;
     }

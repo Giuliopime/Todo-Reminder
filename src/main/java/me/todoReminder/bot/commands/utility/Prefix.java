@@ -23,7 +23,7 @@ public class Prefix extends Command {
             String prefix = ctx.getPrefix();
             ctx.getTextChannel().sendMessage(EmbedReplies.infoEmbed()
                     .setTitle("Command: prefix")
-                    .setDescription("Your prefix is `"+prefix+"`." +
+                    .setDescription("Your prefix is `"+prefix+"`" +
                             "\nYou can change it with `"+prefix+"prefix [new prefix]`")
                     .build()).queue();
         } else {

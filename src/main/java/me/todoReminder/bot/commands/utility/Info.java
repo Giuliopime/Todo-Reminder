@@ -1,8 +1,13 @@
 package me.todoReminder.bot.commands.utility;
 
+import me.todoReminder.bot.core.aesthetics.EmbedReplies;
+import me.todoReminder.bot.core.aesthetics.Emojis;
 import me.todoReminder.bot.core.commands.Command;
 import me.todoReminder.bot.core.commands.CommandCategory;
 import me.todoReminder.bot.core.commands.CommandContext;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.SelfUser;
 
 public class Info extends Command {
     public static final String name = "info",
@@ -17,6 +22,14 @@ public class Info extends Command {
     }
 
     public void run(CommandContext ctx) {
-
+        JDA jda = ctx.getJda();
+        EmbedBuilder eb = EmbedReplies.infoEmbed()
+                .setAuthor(jda.getSelfUser().getName())
+                .setDescription(Emojis.todo+"Version: `Alpha`\n" +
+                        Emojis.todo+"Library: `JDA`\n" +
+                        Emojis.todo+"Developer: `</> Giuliopime#4965`\n" +
+                        Emojis.completed+"Servers: `"+jda.getGuilds().size()+"`\n" +
+                        Emojis.completed+"Users: `"+jda.getUsers().size()+"`");
+        ctx.getTextChannel().sendMessage(eb.build()).queue();
     }
 }

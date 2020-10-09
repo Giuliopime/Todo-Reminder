@@ -14,7 +14,7 @@ public class Show extends Command {
                     "\n\nExamples:" +
                     "\n`t.show --1` shows all the tasks of the first ToDo list" +
                     "\n`t.show --c -2` shows all the completed tasks of the second ToDo list",
-            usage = "(flags | See `t.help show`)";
+            usage = "(flags | See t.help show)";
     private static final CommandCategory category = CommandCategory.TODO;
     private static final boolean requiresArgs = false;
     private static final String[] aliases = {"s"};

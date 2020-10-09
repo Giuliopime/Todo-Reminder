@@ -22,7 +22,6 @@ public final class EmbedReplies{
 
     public static EmbedBuilder infoEmbed() {
         return new EmbedBuilder()
-                .setColor(Colors.info)
-                .setTimestamp(Instant.now());
+                .setColor(Colors.info);
     }
 }
