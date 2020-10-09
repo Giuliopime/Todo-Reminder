@@ -21,20 +21,20 @@ public class Prefix extends Command {
     public void run(CommandContext ctx) {
         if(ctx.getArgs() == null) {
             String prefix = ctx.getPrefix();
-            ctx.getTextChannel().sendMessage(EmbedReplies.infoEmbed()
+            ctx.sendMessage(EmbedReplies.infoEmbed()
                     .setTitle("Command: prefix")
                     .setDescription("Your prefix is `"+prefix+"`" +
                             "\nYou can change it with `"+prefix+"prefix [new prefix]`")
-                    .build()).queue();
+                    .build());
         } else {
             String prefix = String.join(" ", ctx.getArgs());
             if(prefix.length() > 10) {
-                ctx.getTextChannel().sendMessage(EmbedReplies.errorEmbed().setDescription("The prefix can't be longer than 10 characters.").build()).queue();
+                ctx.sendMessage(EmbedReplies.errorEmbed().setDescription("The prefix can't be longer than 10 characters.").build());
                 return;
             }
 
             DatabaseManager.getInstance().setPrefix(ctx.getMember().getId(), prefix);
-            ctx.getTextChannel().sendMessage(EmbedReplies.infoEmbed().setDescription("Prefix set to `"+prefix+"`.").build()).queue();
+            ctx.sendMessage(EmbedReplies.infoEmbed().setDescription("Prefix set to `"+prefix+"`.").build());
         }
     }
 }

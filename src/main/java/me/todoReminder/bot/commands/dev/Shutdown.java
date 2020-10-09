@@ -16,7 +16,7 @@ public class Shutdown extends Command {
     }
 
     public void run(CommandContext ctx) {
-        ctx.getTextChannel().sendMessage("Shutting down...").queue();
+        ctx.sendMessage("Shutting down...");
         Bot.shutdown(ctx.getJda(), "Bot shut down via the 'shutdown' command", null);
     }
 }

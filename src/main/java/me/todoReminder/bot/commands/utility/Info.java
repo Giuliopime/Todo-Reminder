@@ -30,6 +30,6 @@ public class Info extends Command {
                         Emojis.todo+"Developer: `</> Giuliopime#4965`\n" +
                         Emojis.completed+"Servers: `"+jda.getGuilds().size()+"`\n" +
                         Emojis.completed+"Users: `"+jda.getUsers().size()+"`");
-        ctx.getTextChannel().sendMessage(eb.build()).queue();
+        ctx.sendMessage(eb.build());
     }
 }

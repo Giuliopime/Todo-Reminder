@@ -90,6 +90,6 @@ public class Help extends Command {
             eb.setDescription(commandList);
         }
 
-        ctx.getTextChannel().sendMessage(eb.build()).queue();
+        ctx.sendMessage(eb.build());
     }
 }

@@ -22,7 +22,7 @@ public class MessageReceived {
             userID = dmEvent.getAuthor().getId();
         }
 
-        Document userData = getUserData(userID);
+        Document userData = DatabaseManager.getInstance().getUser(userID);;
 
         // Check the prefix (not required in DMs)
         String prefix = guildEvent != null ? userData.get("prefix").toString() : "";
@@ -42,9 +42,5 @@ public class MessageReceived {
         if(!CommandHandler.checkArgs(ctx)) return;
 
         CommandHandler.runCommand(ctx);
-    }
-
-    private static Document getUserData(String userID) {
-        return DatabaseManager.getInstance().getUser(userID);
     }
 }

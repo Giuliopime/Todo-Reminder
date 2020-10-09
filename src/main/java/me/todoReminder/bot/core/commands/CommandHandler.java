@@ -55,7 +55,7 @@ public class CommandHandler {
 
         if(command.getCategory().equals(CommandCategory.DEVELOPER))
             if(!ctx.getMember().getId().equalsIgnoreCase(Config.get("OWNER"))) {
-                ctx.getTextChannel().sendMessage(EmbedReplies.warningEmbed().setDescription("This command is restricted to the developers of the bot.").build()).queue();
+                ctx.sendMessage(EmbedReplies.warningEmbed().setDescription("This command is restricted to the developers of the bot.").build());
                 return false;
             }
         return true;
@@ -74,7 +74,7 @@ public class CommandHandler {
         Command command = COMMANDS.get(ctx.getCommandName());
 
         if(command.requiresArgs() && ctx.getArgs() == null) {
-            ctx.getTextChannel().sendMessage(EmbedReplies.errorEmbed().setDescription("Invalid usage of the command.\nThe correct usage would be:\n" + command.getUsageExample(ctx.getPrefix())).build()).queue();
+            ctx.sendMessage(EmbedReplies.errorEmbed().setDescription("Invalid usage of the command.\nThe correct usage would be:\n" + command.getUsageExample(ctx.getPrefix())).build());
             return false;
         }
         return true;
@@ -94,14 +94,14 @@ public class CommandHandler {
             // Command Categories
             if(command.getCategory().equals(CommandCategory.DEVELOPER)) {
                 if(!ctx.getMember().getId().equalsIgnoreCase(Config.get("OWNER"))) {
-                    ctx.getTextChannel().sendMessage(EmbedReplies.warningEmbed().setDescription("This command is restricted to the developers of the bot.").build()).queue();
+                    ctx.sendMessage(EmbedReplies.warningEmbed().setDescription("This command is restricted to the developers of the bot.").build());
                     return;
                 }
             }
             try {
                 command.run(ctx);
             } catch (Exception e) {
-                ctx.getTextChannel().sendMessage(EmbedReplies.errorEmbed().setDescription("There has been an error in the execution of the command.\nThe developers are already tracking the issue.").build()).queue();
+                ctx.sendMessage(EmbedReplies.errorEmbed().setDescription("There has been an error in the execution of the command.\nThe developers are already tracking the issue.").build());
                 log.error("A command generated an error", e);
             }
         }

@@ -5,6 +5,7 @@ import me.todoReminder.bot.core.commands.Command;
 import me.todoReminder.bot.core.commands.CommandCategory;
 import me.todoReminder.bot.core.commands.CommandContext;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageChannel;
 
 import java.time.temporal.ChronoUnit;
 import java.util.function.Consumer;
@@ -22,7 +23,8 @@ public class Ping extends Command {
     }
 
     public void run(CommandContext ctx) {
-        ctx.getTextChannel().sendMessage(EmbedReplies.infoEmbed().setDescription("Pinging...").build()).queue(new Consumer<Message>() {
+        MessageChannel channel = ctx.getChannel();
+        channel.sendMessage(EmbedReplies.infoEmbed().setDescription("Pinging...").build()).queue(new Consumer<Message>() {
             public void accept(Message m) {
                 long ping = ctx.getMessage().getTimeCreated().until(m.getTimeCreated(), ChronoUnit.MILLIS);
                 m.editMessage(EmbedReplies.infoEmbed().setDescription("Ping: "+ping+" ms\nWebsocket: "+ctx.getJda().getGatewayPing()+" ms").setTimestamp(null).build()).queue();

@@ -18,6 +18,6 @@ public class Invite extends Command {
     }
 
     public void run(CommandContext ctx) {
-        ctx.getTextChannel().sendMessage(EmbedReplies.infoEmbed().setTitle("Invite me!", "https://discord.com/oauth2/authorize?client_id=763067629023526954&scope=bot&permissions=355392").build()).queue();
+        ctx.sendMessage(EmbedReplies.infoEmbed().setTitle("Invite me!", "https://discord.com/oauth2/authorize?client_id=763067629023526954&scope=bot&permissions=355392").build());
     }
 }
