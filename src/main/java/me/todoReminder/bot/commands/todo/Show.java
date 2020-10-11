@@ -31,7 +31,7 @@ public class Show extends Command {
     public void run(CommandContext ctx) {
         List<TodoList> todoLists = ctx.getTodoLists();
 
-        if(todoLists.size() == 0) {
+        if(todoLists == null || todoLists.size() == 0) {
             ctx.sendMessage(EmbedReplies.infoEmbed().setDescription("You don't have any ToDo List!").build());
             return;
         }

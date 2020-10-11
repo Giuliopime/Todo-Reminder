@@ -14,6 +14,10 @@ public class TodoList {
     private List<String> todos;
     private List<String> completed;
 
+    public TodoList() {
+        super();
+    }
+
     public TodoList(ObjectId id, String name, List<String> todos, List<String> completed) {
         this.id = id;
         this.name = name;

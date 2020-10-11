@@ -23,7 +23,7 @@ public class New extends Command {
 
     public void run(CommandContext ctx) {
         List<TodoList> todoLists = ctx.getTodoLists();
-        if(todoLists.size() >= 50) {
+        if(todoLists != null && todoLists.size() >= 50) {
             ctx.sendMessage(EmbedReplies.infoEmbed().setDescription("You already have 50 ToDo Lists!").build());
             return;
         }

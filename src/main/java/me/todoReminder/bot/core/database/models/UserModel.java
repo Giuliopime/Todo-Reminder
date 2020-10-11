@@ -25,4 +25,15 @@ public class UserModel {
     public List<TodoList> getTodoLists() {
         return todoLists;
     }
+
+    public UserModel() {
+       super();
+    }
+    public UserModel(ObjectId id, String userID, String prefix, List<TodoList> todoLists, List<Reminder> reminders) {
+        this.id = id;
+        this.userID = userID;
+        this.prefix = prefix;
+        this.todoLists = todoLists;
+        this.reminders = reminders;
+    }
 }
