@@ -4,16 +4,20 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import dev.morphia.Datastore;
 import dev.morphia.Morphia;
+import dev.morphia.mapping.MapperOptions;
 import dev.morphia.query.Query;
 import dev.morphia.query.experimental.filters.Filters;
 import dev.morphia.query.experimental.updates.UpdateOperator;
 import dev.morphia.query.experimental.updates.UpdateOperators;
+import me.todoReminder.bot.core.database.models.Reminder;
 import me.todoReminder.bot.core.database.models.TodoList;
 import me.todoReminder.bot.core.database.models.UserModel;
+import net.dv8tion.jda.api.entities.User;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -35,7 +39,7 @@ public class DatabaseManager {
 
     public void init() {
         mongoClient = MongoClients.create();
-        datastore = Morphia.createDatastore(mongoClient, "todoReminderDB");
+        datastore = Morphia.createDatastore(mongoClient, "todoReminderDB", MapperOptions.builder().storeEmpties(true).build());
         datastore.getMapper().mapPackage("me.todoReminder.bot.core.database.models");
         datastore.ensureIndexes();
     }
@@ -50,17 +54,16 @@ public class DatabaseManager {
 
         if(query.first() != null) return query.first();
         else {
-            UserModel userModel = new UserModel(new ObjectId(), userID, "t.", null, null);
+            UserModel userModel = new UserModel(userID, "t.");
             datastore.save(userModel);
             return userModel;
         }
     }
 
     public void newList(String userID, String name) {
-        TodoList todoList = new TodoList(new ObjectId(), name, null, null);
         datastore.find(UserModel.class)
                 .filter(Filters.eq("userID", userID))
-                .update(UpdateOperators.push("todoLists", todoList))
+                .update(UpdateOperators.push("todoLists", new TodoList(name)))
                 .execute();
     }
 
