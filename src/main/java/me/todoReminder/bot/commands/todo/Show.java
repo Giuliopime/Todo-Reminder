@@ -1,8 +1,13 @@
 package me.todoReminder.bot.commands.todo;
 
+import me.todoReminder.bot.core.aesthetics.EmbedReplies;
+import me.todoReminder.bot.core.aesthetics.Emojis;
 import me.todoReminder.bot.core.commands.Command;
 import me.todoReminder.bot.core.commands.CommandCategory;
 import me.todoReminder.bot.core.commands.CommandContext;
+import me.todoReminder.bot.core.database.models.TodoList;
+
+import java.util.List;
 
 public class Show extends Command {
     public static final String name = "show",
@@ -24,6 +29,19 @@ public class Show extends Command {
     }
 
     public void run(CommandContext ctx) {
+        List<TodoList> todoLists = ctx.getTodoLists();
 
+        if(todoLists.size() == 0) {
+            ctx.sendMessage(EmbedReplies.infoEmbed().setDescription("You don't have any ToDo List!").build());
+            return;
+        }
+
+        StringBuilder reply = new StringBuilder().append("Here is a list of all your ToDo Lists");
+        int count = 0;
+        for(TodoList todoList: todoLists) {
+            reply.append(count++).append(" ").append(todoList.getName()).append("\n");
+        }
+
+        ctx.sendMessage(EmbedReplies.infoEmbed().setDescription(reply).build());
     }
 }

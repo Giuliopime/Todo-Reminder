@@ -20,6 +20,7 @@ dependencies {
     compile "io.github.cdimascio:java-dotenv:5.2.2"
     compile 'io.github.classgraph:classgraph:4.1.1'
     compile 'org.mongodb:mongodb-driver:3.4.3'
+    compile 'dev.morphia.morphia:morphia-core:2.0.1'
 }
 
 compileJava.options.encoding = 'UTF-8'
