@@ -32,11 +32,12 @@ public class Show extends Command {
     public void run(CommandContext ctx) {
         List<TodoList> todoLists = ctx.getTodoLists();
         TodoList todoList = todoLists.get(ctx.getListIndex());
-        EmbedBuilder eb = EmbedReplies.infoEmbed().setDescription("**Here is a list of all the todos in the "+todoList.getName()+" list:**");
+        StringBuilder reply = new StringBuilder();
 
+        int count = 1;
         for(String todo: todoList.getTodos())
-            eb.addField(todo, "\u200b", false);
+            reply.append(count++).append(". ").append(todo).append("\n");
 
-        ctx.sendMessage(eb.build());
+        ctx.sendMessage(EmbedReplies.infoEmbed().setTitle(todoList.getName()).setDescription(reply).build());
     }
 }

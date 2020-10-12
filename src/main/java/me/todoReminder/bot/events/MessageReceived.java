@@ -57,7 +57,7 @@ public class MessageReceived {
             if (matcher.find()) {
                 String choice = matcher.group(1);
                 ctx.setListIndex(Integer.parseInt(choice.substring(2)) - 1);
-                ctx.setArgs(args.replace(choice, ""));
+                ctx.setArgs(args.replace(choice, "").trim());
                 CommandHandler.runCommand(ctx);
             } else {
                 StringBuilder choiceMessage = new StringBuilder().append("**Please select one of the following ToDo List:**\n");

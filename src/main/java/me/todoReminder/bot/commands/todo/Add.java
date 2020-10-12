@@ -27,5 +27,7 @@ public class Add extends Command {
             return;
         }
         DatabaseManager.getInstance().addTodo(ctx.getUser().getId(), ctx.getListIndex(), ctx.getArgs());
+
+        ctx.sendMessage(EmbedReplies.infoEmbed().setDescription("ToDo added!").build());
     }
 }

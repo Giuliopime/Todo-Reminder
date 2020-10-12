@@ -83,4 +83,21 @@ public class DatabaseManager {
                 .update(UpdateOperators.push("todoLists."+listIndex+".todos", todo))
                 .execute();
     }
+
+    public void removeTodo(String userID, int listIndex, String todo) {
+        datastore.find(UserModel.class)
+                .filter(Filters.eq("userID", userID))
+                .update(UpdateOperators.push("todoLists." + listIndex + ".todos", todo))
+                .execute();
+    }
+
+    public void completeTodo(int listIndex, int todoIndex, UserModel userData) {
+        String todo = userData.getTodoLists().get(listIndex).removeTodo(todoIndex);
+        System.out.println(todo);
+
+        datastore.find(UserModel.class)
+                .filter(Filters.eq("userID", userData.getId()))
+                .update(UpdateOperators.set("todoLists."+listIndex+".todos", userData.getTodoLists().get(listIndex).getTodos()), UpdateOperators.push("todoLists."+listIndex+".completed", todo))
+                .execute();
+    }
 }

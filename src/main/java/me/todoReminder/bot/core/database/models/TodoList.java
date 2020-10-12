@@ -48,4 +48,13 @@ public class TodoList {
     public void addTodo(String todo) {
         todos.add(todo);
     }
+
+    public String removeTodo(int todoIndex) {
+        return todos.remove(todoIndex);
+    }
+
+    public void completeTodo(int todoIndex) {
+        String todo = todos.remove(todoIndex);
+        completed.add(todo);
+    }
 }

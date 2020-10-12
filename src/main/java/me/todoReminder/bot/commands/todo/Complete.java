@@ -1,8 +1,11 @@
 package me.todoReminder.bot.commands.todo;
 
+import me.todoReminder.bot.core.aesthetics.EmbedReplies;
 import me.todoReminder.bot.core.commands.Command;
 import me.todoReminder.bot.core.commands.CommandCategory;
 import me.todoReminder.bot.core.commands.CommandContext;
+import me.todoReminder.bot.core.database.DatabaseManager;
+import me.todoReminder.bot.core.database.models.TodoList;
 
 public class Complete extends Command {
     public static final String name = "complete",
@@ -20,6 +23,30 @@ public class Complete extends Command {
     }
 
     public void run(CommandContext ctx) {
+        int todoIndex = -1;
+        String args = ctx.getArgs();
 
+        int number = 0;
+        try{
+            number = Integer.parseInt(args);
+        } catch(Exception ignored) {}
+
+        if(number > 0 && number < ctx.getTodoLists().get(ctx.getListIndex()).getTodos().size() + 1)
+            todoIndex = number - 1;
+        else {
+            for(String todo: ctx.getTodoLists().get(ctx.getListIndex()).getTodos()) {
+                if(todo.toLowerCase().contains(args.toLowerCase())) {
+                    todoIndex = ctx.getTodoLists().get(ctx.getListIndex()).getTodos().indexOf(todo);
+                    break;
+                }
+            }
+        }
+
+        if(todoIndex > -1) {
+            ctx.sendMessage(EmbedReplies.infoEmbed().setDescription("The following To Do has been marked as completed:\n\n"+ctx.getTodoLists().get(ctx.getListIndex()).getTodos().get(todoIndex)).build());
+            DatabaseManager.getInstance().completeTodo(ctx.getListIndex(), todoIndex, ctx.getUserData());
+        } else {
+            ctx.sendMessage(EmbedReplies.warningEmbed().setDescription("To Do not found. Please provide it's number or some of it's content.\nSee `"+ctx.getPrefix()+"help complete`").build());
+        }
     }
 }
