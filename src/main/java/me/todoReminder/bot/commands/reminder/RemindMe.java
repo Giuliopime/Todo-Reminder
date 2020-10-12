@@ -23,7 +23,7 @@ public class RemindMe extends Command {
     private static final String[] aliases = {"rm"};
 
     public RemindMe() {
-        super(name, description, usage, category, requiresArgs, aliases);
+        super(name, description, usage, category, requiresArgs, aliases, false);
     }
 
     public void run(CommandContext ctx) {

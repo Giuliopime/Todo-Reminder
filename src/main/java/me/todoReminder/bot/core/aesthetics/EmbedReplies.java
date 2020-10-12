@@ -14,7 +14,7 @@ public final class EmbedReplies{
 
     public static EmbedBuilder warningEmbed() {
         return new EmbedBuilder()
-                .setTitle("⚠️ Warning ⚠️")
+                .setTitle("⚠️ Warning")
                 .setColor(Colors.warning)
                 .setFooter("Use t.help for assistance")
                 .setTimestamp(Instant.now());

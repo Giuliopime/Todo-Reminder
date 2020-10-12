@@ -1,5 +1,6 @@
 package me.todoReminder.bot.core;
 
+import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.todoReminder.bot.events.MessageReceived;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -13,6 +14,15 @@ import org.slf4j.LoggerFactory;
 public class EventManager extends ListenerAdapter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EventManager.class);
+    private static EventWaiter waiter;
+
+    public EventManager(EventWaiter waiter) {
+        EventManager.waiter = waiter;
+    }
+
+    public static EventWaiter getWaiter() {
+        return waiter;
+    }
 
     @Override
     public void onReady(@NotNull ReadyEvent event) {

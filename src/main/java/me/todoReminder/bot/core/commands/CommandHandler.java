@@ -50,17 +50,6 @@ public class CommandHandler {
         return command != null ? command.getName() : null;
     }
 
-    public static boolean checkCategory(CommandContext ctx) {
-        Command command = COMMANDS.get(ctx.getCommandName());
-
-        if(command.getCategory().equals(CommandCategory.DEVELOPER))
-            if(!ctx.getUser().getId().equalsIgnoreCase(Config.get("OWNER"))) {
-                ctx.sendMessage(EmbedReplies.warningEmbed().setDescription("This command is restricted to the developers of the bot.").build());
-                return false;
-            }
-        return true;
-    }
-
     public static Command getCommand(String commandName) {
         Command command = COMMANDS.get(commandName.toLowerCase());
         if(command == null) {

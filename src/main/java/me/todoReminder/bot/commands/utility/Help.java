@@ -17,7 +17,7 @@ public class Help extends Command {
     private static final String[] aliases = {"h"};
 
     public Help() {
-        super(name, description, usage, category, requiresArgs, aliases);
+        super(name, description, usage, category, requiresArgs, aliases, false);
     }
 
     public void run(CommandContext ctx) {

@@ -1,11 +1,11 @@
 package me.todoReminder.bot.commands.todo;
 
 import me.todoReminder.bot.core.aesthetics.EmbedReplies;
-import me.todoReminder.bot.core.aesthetics.Emojis;
 import me.todoReminder.bot.core.commands.Command;
 import me.todoReminder.bot.core.commands.CommandCategory;
 import me.todoReminder.bot.core.commands.CommandContext;
 import me.todoReminder.bot.core.database.models.TodoList;
+import net.dv8tion.jda.api.EmbedBuilder;
 
 import java.util.List;
 
@@ -23,25 +23,20 @@ public class Show extends Command {
     private static final CommandCategory category = CommandCategory.TODO;
     private static final boolean requiresArgs = false;
     private static final String[] aliases = {"s"};
+    private static final boolean chooseList = true;
 
     public Show() {
-        super(name, description, usage, category, requiresArgs, aliases);
+        super(name, description, usage, category, requiresArgs, aliases, chooseList);
     }
 
     public void run(CommandContext ctx) {
         List<TodoList> todoLists = ctx.getTodoLists();
+        TodoList todoList = todoLists.get(ctx.getListIndex());
+        EmbedBuilder eb = EmbedReplies.infoEmbed().setDescription("**Here is a list of all the todos in the "+todoList.getName()+" list:**");
 
-        if(todoLists == null || todoLists.size() == 0) {
-            ctx.sendMessage(EmbedReplies.infoEmbed().setDescription("You don't have any ToDo List!").build());
-            return;
-        }
+        for(String todo: todoList.getTodos())
+            eb.addField(todo, "\u200b", false);
 
-        StringBuilder reply = new StringBuilder().append("Here is a list of all your ToDo Lists");
-        int count = 0;
-        for(TodoList todoList: todoLists) {
-            reply.append(count++).append(" ").append(todoList.getName()).append("\n");
-        }
-
-        ctx.sendMessage(EmbedReplies.infoEmbed().setDescription(reply).build());
+        ctx.sendMessage(eb.build());
     }
 }

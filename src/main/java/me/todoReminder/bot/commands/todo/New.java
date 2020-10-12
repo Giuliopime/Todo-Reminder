@@ -16,9 +16,10 @@ public class New extends Command {
     private static final CommandCategory category = CommandCategory.TODO;
     private static final boolean requiresArgs = true;
     private static final String[] aliases = {"n"};
+    private static final boolean chooseList = false;
 
     public New() {
-        super(name, description, usage, category, requiresArgs, aliases);
+        super(name, description, usage, category, requiresArgs, aliases, chooseList);
     }
 
     public void run(CommandContext ctx) {

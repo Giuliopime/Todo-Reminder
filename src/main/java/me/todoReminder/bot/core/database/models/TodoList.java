@@ -44,4 +44,8 @@ public class TodoList {
     public void setCompleted(List<String> completed) {
         this.completed = completed;
     }
+
+    public void addTodo(String todo) {
+        todos.add(todo);
+    }
 }

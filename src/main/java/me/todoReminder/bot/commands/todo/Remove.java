@@ -13,9 +13,10 @@ public class Remove extends Command {
     private static final CommandCategory category = CommandCategory.TODO;
     private static final boolean requiresArgs = true;
     private static final String[] aliases = {"r"};
+    private static final boolean chooseList = true;
 
     public Remove() {
-        super(name, description, usage, category, requiresArgs, aliases);
+        super(name, description, usage, category, requiresArgs, aliases, chooseList);
     }
 
     public void run(CommandContext ctx) {

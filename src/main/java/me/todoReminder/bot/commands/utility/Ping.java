@@ -19,7 +19,7 @@ public class Ping extends Command {
     private static final String[] aliases = null;
 
     public Ping() {
-        super(name, description, usage, category, requiresArgs, aliases);
+        super(name, description, usage, category, requiresArgs, aliases, false);
     }
 
     public void run(CommandContext ctx) {

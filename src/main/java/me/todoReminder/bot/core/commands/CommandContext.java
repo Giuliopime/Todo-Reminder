@@ -12,19 +12,21 @@ import java.util.List;
 public class CommandContext {
     private final MessageReceivedEvent event;
     private final String commandName;
-    private final String args;
+    private String args;
     private final JDA jda;
     private final UserModel userData;
     private final MessageChannel channel;
+    private int listIndex;
 
 
-    public CommandContext(MessageReceivedEvent event, String commandName, String args, UserModel userData) {
+    public CommandContext(MessageReceivedEvent event, String commandName, String args, UserModel userData, int listIndex) {
         this.event = event;
         this.commandName = commandName;
         this.args = args;
         this.userData = userData;
         jda = event.getJDA();
         channel = event.getChannel();
+        this.listIndex = listIndex;
     }
 
     // Get full events
@@ -81,5 +83,17 @@ public class CommandContext {
 
     public JDA getJda() {
         return jda;
+    }
+
+    public int getListIndex() {
+        return listIndex;
+    }
+
+    public void setListIndex(int listChoice) {
+        this.listIndex = listChoice;
+    }
+
+    public void setArgs(String args) {
+        this.args = args;
     }
 }

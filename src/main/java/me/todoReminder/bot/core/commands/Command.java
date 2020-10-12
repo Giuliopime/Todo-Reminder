@@ -5,14 +5,16 @@ public abstract class Command {
     private final CommandCategory category;
     private final boolean requiresArgs;
     private final String[] aliases;
+    private final boolean chooseList;
 
-    public Command(String name, String description, String usage, CommandCategory category, boolean requiresArgs, String[] aliases) {
+    public Command(String name, String description, String usage, CommandCategory category, boolean requiresArgs, String[] aliases, boolean chooseList) {
         this.name = name;
         this.description = description;
         this.usage = usage;
         this.category = category;
         this.requiresArgs = requiresArgs;
         this.aliases = aliases;
+        this.chooseList = chooseList;
     }
 
     protected abstract void run(CommandContext ctx);
@@ -43,5 +45,9 @@ public abstract class Command {
 
     public String[] getAliases() {
         return aliases;
+    }
+
+    public boolean getChooseList() {
+        return chooseList;
     }
 }

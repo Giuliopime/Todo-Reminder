@@ -1,5 +1,6 @@
 package me.todoReminder.bot;
 
+import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.todoReminder.bot.core.commands.CommandHandler;
 import me.todoReminder.bot.core.EventManager;
 import me.todoReminder.bot.core.database.DatabaseManager;
@@ -27,10 +28,11 @@ public class Bot {
     private Bot() throws Exception {
         JDA jda = null;
         try {
+            EventWaiter waiter = new EventWaiter();
             jda = JDABuilder
                     .createDefault(Config.get("TOKEN"))
                     .setActivity(Activity.watching("your tasks"))
-                    .addEventListeners(new EventManager())
+                    .addEventListeners(new EventManager(waiter), waiter)
                     .build()
                     .awaitReady();
 
