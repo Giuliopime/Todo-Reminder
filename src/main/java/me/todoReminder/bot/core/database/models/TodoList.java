@@ -1,15 +1,13 @@
 package me.todoReminder.bot.core.database.models;
 
+import dev.morphia.annotations.Embedded;
 import dev.morphia.annotations.Entity;
 import dev.morphia.annotations.Id;
 import org.bson.types.ObjectId;
 import java.util.ArrayList;
 import java.util.List;
-
-@Entity("todoLists")
+@Embedded
 public class TodoList {
-    @Id
-    private ObjectId id;
     private String name;
     private List<String> todos;
     private List<String> completed;
@@ -17,15 +15,11 @@ public class TodoList {
     public TodoList() { }
 
     public TodoList(String name) {
-        id = new ObjectId();
         this.name = name;
         todos = new ArrayList<>();
         completed = new ArrayList<>();
     }
 
-    public ObjectId getId() {
-        return id;
-    }
 
     public String getName() {
         return name;
@@ -37,10 +31,6 @@ public class TodoList {
 
     public List<String> getCompleted() {
         return completed;
-    }
-
-    public void setId(ObjectId id) {
-        this.id = id;
     }
 
     public void setName(String name) {

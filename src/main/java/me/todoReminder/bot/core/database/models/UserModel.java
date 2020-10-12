@@ -1,5 +1,6 @@
 package me.todoReminder.bot.core.database.models;
 
+import dev.morphia.annotations.Embedded;
 import dev.morphia.annotations.Entity;
 import dev.morphia.annotations.Id;
 import dev.morphia.annotations.Reference;
@@ -14,10 +15,8 @@ public class UserModel {
    private ObjectId id;
    private String userID;
    private String prefix;
-   @Reference
-    private List<TodoList> todoLists;
-   @Reference
-    private List<Reminder> reminders;
+   private List<TodoList> todoLists;
+   private List<Reminder> reminders;
 
     public UserModel() { }
     public UserModel(String userID, String prefix) {

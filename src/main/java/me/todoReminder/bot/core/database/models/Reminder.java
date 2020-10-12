@@ -1,12 +1,11 @@
 package me.todoReminder.bot.core.database.models;
 
+import dev.morphia.annotations.Embedded;
 import dev.morphia.annotations.Entity;
 import dev.morphia.annotations.Id;
 import org.bson.types.ObjectId;
 
-@Entity("reminders")
+@Embedded
 public class Reminder {
-    @Id
-    private ObjectId id;
     private String reminder;
 }
