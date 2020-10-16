@@ -9,6 +9,7 @@ import dev.morphia.query.Query;
 import dev.morphia.query.experimental.filters.Filters;
 import dev.morphia.query.experimental.updates.UpdateOperator;
 import dev.morphia.query.experimental.updates.UpdateOperators;
+import me.todoReminder.bot.core.commands.CommandContext;
 import me.todoReminder.bot.core.database.models.Reminder;
 import me.todoReminder.bot.core.database.models.TodoList;
 import me.todoReminder.bot.core.database.models.UserModel;
@@ -76,6 +77,13 @@ public class DatabaseManager {
         datastore.find(UserModel.class)
                 .filter(Filters.eq("userID", userID))
                 .update(UpdateOperators.push("todoLists", new TodoList(name)))
+                .execute();
+    }
+
+    public void deleteList(String userID, CommandContext ctx) {
+        datastore.find(UserModel.class)
+                .filter(Filters.eq("userID", userID))
+                .update(UpdateOperators.pullAll("todoLists", Collections.singletonList(ctx.getTodoLists().get(ctx.getListIndex()))))
                 .execute();
     }
 
