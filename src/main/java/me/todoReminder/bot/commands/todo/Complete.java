@@ -44,7 +44,7 @@ public class Complete extends Command {
 
         if(todoIndex > -1) {
             ctx.sendMessage(EmbedReplies.infoEmbed().setDescription("The following To Do has been marked as completed:\n\n"+ctx.getTodoLists().get(ctx.getListIndex()).getTodos().get(todoIndex)).build());
-            DatabaseManager.getInstance().completeTodo(ctx.getListIndex(), todoIndex, ctx.getUserData());
+            DatabaseManager.getInstance().completeTodo(ctx.getUser().getId(), ctx.getListIndex(), ctx.getTodoLists().get(ctx.getListIndex()).getTodo(todoIndex));
         } else {
             ctx.sendMessage(EmbedReplies.warningEmbed().setDescription("To Do not found. Please provide it's number or some of it's content.\nSee `"+ctx.getPrefix()+"help complete`").build());
         }

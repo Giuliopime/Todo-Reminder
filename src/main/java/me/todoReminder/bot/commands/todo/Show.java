@@ -32,12 +32,21 @@ public class Show extends Command {
     public void run(CommandContext ctx) {
         List<TodoList> todoLists = ctx.getTodoLists();
         TodoList todoList = todoLists.get(ctx.getListIndex());
+
+        EmbedBuilder eb = EmbedReplies.infoEmbed().setTitle(todoList.getName());
         StringBuilder reply = new StringBuilder();
 
         int count = 1;
-        for(String todo: todoList.getTodos())
-            reply.append(count++).append(". ").append(todo).append("\n");
+        if(ctx.getArgs().toLowerCase().contains("--c")) {
+            eb.setTitle(todoList.getName() + "  [completed]");
+            for (String completedTodo : todoList.getCompleted())
+                reply.append(count++).append(". ").append(completedTodo).append("\n");
+        }
+        else {
+            for (String todo : todoList.getTodos())
+                reply.append(count++).append(". ").append(todo).append("\n");
+        }
 
-        ctx.sendMessage(EmbedReplies.infoEmbed().setTitle(todoList.getName()).setDescription(reply).build());
+        ctx.sendMessage(eb.setDescription(reply).build());
     }
 }

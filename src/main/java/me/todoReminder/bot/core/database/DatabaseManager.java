@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -88,16 +89,14 @@ public class DatabaseManager {
     public void removeTodo(String userID, int listIndex, String todo) {
         datastore.find(UserModel.class)
                 .filter(Filters.eq("userID", userID))
-                .update(UpdateOperators.pull("todoLists." + listIndex + ".todos", Filters.eq("value", todo)))
+                .modify(UpdateOperators.pullAll("todoLists."+listIndex+".todos", Collections.singletonList(todo)))
                 .execute();
     }
 
-    public void completeTodo(int listIndex, int todoIndex, UserModel userData) {
-        String todo = userData.getTodoLists().get(listIndex).getTodo(todoIndex);
-
+    public void completeTodo(String userID, int listIndex, String todo) {
         datastore.find(UserModel.class)
-                .filter(Filters.eq("userID", userData.getUserID()))
-                .modify(UpdateOperators.pullAll("todoLists."+listIndex+".todos", Collections.singletonList(userData.getTodoLists().get(listIndex).getTodo(todoIndex))), UpdateOperators.push("todoLists."+listIndex+".completed", todo))
+                .filter(Filters.eq("userID", userID))
+                .modify(UpdateOperators.pullAll("todoLists."+listIndex+".todos", Collections.singletonList(todo)), UpdateOperators.push("todoLists."+listIndex+".completed", todo))
                 .execute();
     }
 }
