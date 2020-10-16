@@ -53,8 +53,13 @@ public class TodoList {
         return todos.remove(todoIndex);
     }
 
-    public void completeTodo(int todoIndex) {
+    public String completeTodo(int todoIndex) {
         String todo = todos.remove(todoIndex);
         completed.add(todo);
+        return todo;
+    }
+
+    public String getTodo(int index) {
+        return todos.get(index);
     }
 }
