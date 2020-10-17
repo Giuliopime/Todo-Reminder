@@ -37,15 +37,20 @@ public class Show extends Command {
         int count = 1;
         if(ctx.getArgs() != null && ctx.getArgs().toLowerCase().contains("--c")) {
             eb.setTitle(todoList.getName() + "  [completed]");
+
+            if(todoList.getCompleted().size() == 0)
+                reply.append("0 completed Todos found!\n");
             for (String completedTodo : todoList.getCompleted())
                 reply.append(count++).append(": ").append(completedTodo).append("\n");
         }
         else {
+            if(todoList.getTodos().size() == 0)
+                reply.append("0 Todos found!\n");
             for (String todo : todoList.getTodos())
                 reply.append(count++).append(": ").append(todo).append("\n");
         }
 
-        reply.append("```");
+        reply.append("\n```");
 
         ctx.sendMessage(eb.setDescription(reply));
     }

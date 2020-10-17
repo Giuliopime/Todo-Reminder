@@ -23,6 +23,8 @@ public class Lists extends Command {
         StringBuilder reply = new StringBuilder().append("```yaml\n");
 
         int count = 1;
+        if(ctx.getTodoLists().size() == 0)
+            reply.append("You got 0 Todo Lists:\n\nCreate one with ").append(ctx.getPrefix()).append("new\n");
         for(TodoList todoList: ctx.getTodoLists())
             reply.append(count++).append(": ").append(todoList.getName()).append("\n");
 
