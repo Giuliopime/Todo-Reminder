@@ -3,6 +3,7 @@ package me.todoReminder.bot.events;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.todoReminder.bot.Config;
 import me.todoReminder.bot.core.aesthetics.EmbedReplies;
+import me.todoReminder.bot.core.aesthetics.Emojis;
 import me.todoReminder.bot.core.cache.CacheManager;
 import me.todoReminder.bot.core.commands.Command;
 import me.todoReminder.bot.core.commands.CommandCategory;
@@ -11,10 +12,15 @@ import me.todoReminder.bot.core.commands.CommandHandler;
 import me.todoReminder.bot.core.database.DatabaseManager;
 import me.todoReminder.bot.core.database.schemas.TodoList;
 import me.todoReminder.bot.core.database.schemas.UserSchema;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -24,6 +30,7 @@ public class MessageReceived {
 
     public static void execute(MessageReceivedEvent event) {
         if(event.getAuthor().isBot()) return;
+        if(!event.getGuild().getSelfMember().hasPermission(event.getTextChannel(), Permission.MESSAGE_WRITE)) return;
 
         String messageContent = event.getMessage().getContentRaw(),
                 userID = event.getAuthor().getId();
@@ -68,7 +75,32 @@ public class MessageReceived {
 
         if(!CommandHandler.checkArgs(ctx)) return;
 
+        // Check the bot permissions
+        List<Permission> requiredPermissions = Arrays.asList(
+                Permission.MESSAGE_WRITE,
+                Permission.MESSAGE_EMBED_LINKS,
+                Permission.MESSAGE_MANAGE,
+                Permission.MESSAGE_EXT_EMOJI
+        );
+        if(isFromGuild && !event.getGuild().getSelfMember().hasPermission(event.getTextChannel(), requiredPermissions)) {
+            StringBuilder missingPermissions = new StringBuilder();
+            for(Permission permission: requiredPermissions) {
+                if(!event.getGuild().getSelfMember().hasPermission(event.getTextChannel(), permission))
+                    missingPermissions.append("\n ").append(Emojis.error).append(" ").append(permission.getName());
+            }
 
+            String reply = "I'm missing some essential permissions:\n"+
+                            missingPermissions+
+                            "\n\nYou can grant those permissions in the channel settings.";
+
+            if(event.getGuild().getSelfMember().hasPermission(event.getTextChannel(), Permission.MESSAGE_EMBED_LINKS))
+                ctx.sendMessage(EmbedReplies.errorEmbed().setTitle(Emojis.error+" Missing Permissions").setDescription(reply));
+
+            else
+                event.getTextChannel().sendMessage(reply).queue();
+
+            return;
+        }
         /*
         Various checks depending on the category of the command:
         - developer commands can only be executed by the owner (defined in .env) :bonk:
