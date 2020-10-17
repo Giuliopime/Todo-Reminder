@@ -9,7 +9,7 @@ import me.todoReminder.bot.core.commands.CommandContext;
 import me.todoReminder.bot.core.commands.CommandHandler;
 import me.todoReminder.bot.core.database.DatabaseManager;
 import me.todoReminder.bot.core.database.schemas.TodoList;
-import me.todoReminder.bot.core.database.schemas.UserModel;
+import me.todoReminder.bot.core.database.schemas.UserSchema;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,11 +22,13 @@ public class MessageReceived {
     private static final Logger LOGGER = LoggerFactory.getLogger(MessageReceived.class);
 
     public static void execute(MessageReceivedEvent event) {
+        if(event.getAuthor().isBot()) return;
+
         String messageContent = event.getMessage().getContentRaw(),
                 userID = event.getAuthor().getId();
         boolean isFromGuild = event.isFromGuild();
         // Get the user data (all to-do lists and reminders) from the database
-        UserModel userData = DatabaseManager.getInstance().getUser(userID);
+        UserSchema userData = DatabaseManager.getInstance().getUser(userID);
 
         /*
             Check if the message is a valid command:

@@ -25,7 +25,7 @@ public class Info extends Command {
         JDA jda = ctx.getJda();
         EmbedBuilder eb = EmbedReplies.infoEmbed(false)
                 .setAuthor(jda.getSelfUser().getName())
-                .setDescription(Emojis.todo+"Version: `Alpha`\n" +
+                .setDescription(Emojis.online+"Version: `Alpha`\n" +
                         Emojis.online+"Library: `JDA`\n" +
                         Emojis.online+"Developer: `</> Giuliopime#4965`\n" +
                         Emojis.online+"Servers: `"+jda.getGuilds().size()+"`\n" +

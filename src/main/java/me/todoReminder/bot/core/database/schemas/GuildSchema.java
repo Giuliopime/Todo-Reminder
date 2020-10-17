@@ -21,4 +21,8 @@ public class GuildSchema {
     public String getPrefix() {
         return prefix;
     }
+
+    public String getGuildID() {
+        return guildID;
+    }
 }

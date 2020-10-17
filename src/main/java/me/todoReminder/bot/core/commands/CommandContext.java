@@ -1,13 +1,11 @@
 package me.todoReminder.bot.core.commands;
 
-import me.todoReminder.bot.core.database.schemas.GuildSchema;
 import me.todoReminder.bot.core.database.schemas.TodoList;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import me.todoReminder.bot.core.database.schemas.UserModel;
-import net.dv8tion.jda.api.entities.User;
+import me.todoReminder.bot.core.database.schemas.UserSchema;
 
 import java.util.List;
 
@@ -19,10 +17,10 @@ public class CommandContext {
     private String args;
     private final String prefix;
     private int listIndex;
-    private final UserModel userData;
+    private final UserSchema userData;
 
 
-    public CommandContext(MessageReceivedEvent event, String commandName, String args, UserModel userData, int listIndex, String prefix) {
+    public CommandContext(MessageReceivedEvent event, String commandName, String args, UserSchema userData, int listIndex, String prefix) {
         jda = event.getJDA();
         this.event = event;
         channel = event.getChannel();

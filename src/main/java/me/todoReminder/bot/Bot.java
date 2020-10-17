@@ -1,6 +1,7 @@
 package me.todoReminder.bot;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
+import me.todoReminder.bot.core.cache.CacheManager;
 import me.todoReminder.bot.core.commands.CommandHandler;
 import me.todoReminder.bot.events.EventManager;
 import me.todoReminder.bot.core.database.DatabaseManager;
@@ -41,6 +42,9 @@ public class Bot {
 
             // Init the connection to the database
             DatabaseManager.getInstance();
+
+            // Connect to redis cache
+            CacheManager.getInstance();
         } catch (LoginException e) {
             shutdown(null, "Invalid Token for ToDo Reminder!", e);
         } catch (InterruptedException e) {
@@ -57,6 +61,7 @@ public class Bot {
         if(jda != null) jda.shutdown();
 
         DatabaseManager.getInstance().shutdown();
+        CacheManager.getInstance().shutdown();
         System.exit(0);
     }
 }

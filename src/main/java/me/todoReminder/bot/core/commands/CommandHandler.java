@@ -13,8 +13,8 @@ import java.util.Map;
 public class CommandHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(CommandHandler.class);
     private static final ClassGraph CLASS_GRAPH = new ClassGraph().whitelistPackages("me.todoReminder.bot.commands");
-    private static final Map<String, Command> COMMANDS = new HashMap<>();
-    private static final Map<String, String> ALIASES = new HashMap<>();
+    private static Map<String, Command> COMMANDS = new HashMap<>();
+    private static Map<String, String> ALIASES = new HashMap<>();
 
     public static void registerCommands() {
         try(ScanResult result = CLASS_GRAPH.scan()) {
@@ -73,7 +73,7 @@ public class CommandHandler {
 
         if(command != null) {
             try{
-                CommandHandler.runCommand(ctx);
+                command.run(ctx);
             } catch (Exception e) {
                 ctx.sendMessage(EmbedReplies.commandErrorEmbed());
                 LOGGER.error("The command '{}' threw an error", ctx.getCommandName(), e);

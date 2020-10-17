@@ -8,15 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity("users")
-public class UserModel {
+public class UserSchema {
    @Id
    private ObjectId id;
    private String userID;
    private List<TodoList> todoLists;
    private List<Reminder> reminders;
 
-    public UserModel() { }
-    public UserModel(String userID, String prefix) {
+    public UserSchema() { }
+    public UserSchema(String userID) {
         id = new ObjectId();
         this.userID = userID;
         todoLists = new ArrayList<>();
