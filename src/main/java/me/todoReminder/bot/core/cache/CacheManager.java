@@ -5,6 +5,10 @@ import me.todoReminder.bot.core.database.schemas.GuildSchema;
 import me.todoReminder.bot.core.database.schemas.UserSchema;
 import redis.clients.jedis.Jedis;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class CacheManager {
     private static CacheManager instance;
     private final Jedis jedis;
@@ -26,6 +30,21 @@ public class CacheManager {
         jedis.shutdown();
     }
 
+    // User Commands Cool down
+    public long isOnCooldown(String userID) {
+        long currentTime = System.currentTimeMillis();
+        String cooldown = jedis.hget("cooldowns", userID);
+
+        if(cooldown != null) {
+            long timestamp = Long.parseLong(cooldown);
+
+            if(currentTime - timestamp <= 750) return 750 - (currentTime - timestamp);
+            jedis.hset("cooldowns", userID, Long.toString(currentTime));
+            return 0;
+        }
+        jedis.hset("cooldowns", userID, Long.toString(currentTime));
+        return 0;
+    }
 
     // Get stuff from the cache
     public UserSchema getUser(String userID) {

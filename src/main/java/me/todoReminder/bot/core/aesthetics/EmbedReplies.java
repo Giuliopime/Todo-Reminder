@@ -20,6 +20,13 @@ public final class EmbedReplies{
                 .setTimestamp(Instant.now());
     }
 
+    public static EmbedBuilder onCooldownEmbed(long milliseconds) {
+        return new EmbedBuilder()
+                .setColor(Colors.error)
+                .setTitle(Emojis.error+" Slow it down sir")
+                .setDescription("Wait `"+milliseconds/1000.0+"` more seconds before using another command please.");
+    }
+
     public static EmbedBuilder infoEmbed(boolean success) {
         return new EmbedBuilder()
                 .setColor(success ? Colors.success : Colors.info);

@@ -3,6 +3,7 @@ package me.todoReminder.bot.events;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.todoReminder.bot.Config;
 import me.todoReminder.bot.core.aesthetics.EmbedReplies;
+import me.todoReminder.bot.core.cache.CacheManager;
 import me.todoReminder.bot.core.commands.Command;
 import me.todoReminder.bot.core.commands.CommandCategory;
 import me.todoReminder.bot.core.commands.CommandContext;
@@ -54,6 +55,12 @@ public class MessageReceived {
 
         commandName = CommandHandler.isCommand(commandName);
         if(commandName == null) return;
+
+        long cooldownTimestamp = CacheManager.getInstance().isOnCooldown(userID);
+        if(cooldownTimestamp != 0) {
+            ctx.sendMessage(EmbedReplies.onCooldownEmbed(cooldownTimestamp));
+            return;
+        }
 
         // Update the command context
         ctx.setCommandName(commandName);
