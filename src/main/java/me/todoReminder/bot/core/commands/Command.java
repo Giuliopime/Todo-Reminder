@@ -18,6 +18,7 @@ public abstract class Command {
     }
 
     protected abstract void run(CommandContext ctx);
+
     // Getters
     public String getUsageExample(String prefix) {
         return "`"+ prefix + name + (usage != null ? " " + usage : "")+"`";

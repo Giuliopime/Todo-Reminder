@@ -26,10 +26,10 @@ public class Info extends Command {
         EmbedBuilder eb = EmbedReplies.infoEmbed(false)
                 .setAuthor(jda.getSelfUser().getName())
                 .setDescription(Emojis.todo+"Version: `Alpha`\n" +
-                        Emojis.todo+"Library: `JDA`\n" +
-                        Emojis.todo+"Developer: `</> Giuliopime#4965`\n" +
-                        Emojis.completed+"Servers: `"+jda.getGuilds().size()+"`\n" +
-                        Emojis.completed+"Users: `"+jda.getUsers().size()+"`");
+                        Emojis.online+"Library: `JDA`\n" +
+                        Emojis.online+"Developer: `</> Giuliopime#4965`\n" +
+                        Emojis.online+"Servers: `"+jda.getGuilds().size()+"`\n" +
+                        Emojis.online+"Users: `"+jda.getUsers().size()+"`");
         ctx.sendMessage(eb);
     }
 }

@@ -43,8 +43,7 @@ public class DatabaseManager {
         mongoClient.close();
     }
 
-
-    // Get
+    // Getters for the database
     public UserModel getUser(String userID) {
         Query<UserModel> query = datastore.find(UserModel.class)
                 .filter(Filters.eq("userID", userID));
@@ -68,6 +67,9 @@ public class DatabaseManager {
             return guildSchema.getPrefix();
         }
     }
+
+
+    // Update database data
     public void setPrefix(String guildID, String prefix) {
         datastore.find(GuildSchema.class)
                 .filter(Filters.eq("guildID", guildID))
@@ -85,7 +87,7 @@ public class DatabaseManager {
     public void deleteList(String userID, CommandContext ctx) {
         datastore.find(UserModel.class)
                 .filter(Filters.eq("userID", userID))
-                .update(UpdateOperators.pullAll("todoLists", Collections.singletonList(ctx.getTodoLists().get(ctx.getListIndex()))))
+                .update(UpdateOperators.pullAll("todoLists", Collections.singletonList(ctx.getSelectedList())))
                 .execute();
     }
 

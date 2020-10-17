@@ -49,7 +49,7 @@ public class MessageReceived {
         String commandName = withoutPrefix.split(" +")[0];
         String args = withoutPrefix.substring(commandName.length()).trim();
         if(args.isEmpty()) args = null;
-        LOGGER.info(commandName);
+
         commandName = CommandHandler.isCommand(commandName);
         if(commandName == null) return;
 
@@ -78,7 +78,7 @@ public class MessageReceived {
                 ctx.sendMessage(EmbedReplies.infoEmbed(false).setDescription("**You don't have any Todo List yet.**\nCreate one with `" + ctx.getPrefix() + "new`!"));
             }
             else if(ctx.getTodoLists().size() == 1) {
-                runCommand(ctx);
+                CommandHandler.runCommand(ctx);
             }
             else {
                 /*
@@ -99,7 +99,7 @@ public class MessageReceived {
                     // Removes the flag from the arguments
                     ctx.setArgs(args.replace(matcher.group(1), "").trim());
 
-                    runCommand(ctx);
+                    CommandHandler.runCommand(ctx);
                 } else {
                     StringBuilder choiceMessage = new StringBuilder().append("**Select one of the following Todo List:**\n```yaml\n");
                     int optionNumber = 1;
@@ -130,7 +130,7 @@ public class MessageReceived {
                                     message.delete().queue();
                                     e.getMessage().delete().queue();
                                     ctx.setListIndex(Integer.parseInt(e.getMessage().getContentRaw()) - 1);
-                                    runCommand(ctx);
+                                    CommandHandler.runCommand(ctx);
                                 },
 
                                 1, TimeUnit.MINUTES, () -> ctx.sendMessage(EmbedReplies.errorEmbed().setDescription("You took too long.")));
@@ -138,15 +138,6 @@ public class MessageReceived {
                 }
             }
         }
-        else runCommand(ctx);
-    }
-
-    private static void runCommand(CommandContext ctx) {
-        try{
-            CommandHandler.runCommand(ctx);
-        } catch (Exception e) {
-            ctx.sendMessage(EmbedReplies.commandErrorEmbed());
-            LOGGER.error("The command '{}' threw an error", ctx.getCommandName(), e);
-        }
+        else CommandHandler.runCommand(ctx);;
     }
 }

@@ -18,7 +18,7 @@ public class TodoList {
         completed = new ArrayList<>();
     }
 
-
+    // Getters
     public String getName() {
         return name;
     }
@@ -29,32 +29,6 @@ public class TodoList {
 
     public List<String> getCompleted() {
         return completed;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setTodos(List<String> todos) {
-        this.todos = todos;
-    }
-
-    public void setCompleted(List<String> completed) {
-        this.completed = completed;
-    }
-
-    public void addTodo(String todo) {
-        todos.add(todo);
-    }
-
-    public String removeTodo(int todoIndex) {
-        return todos.remove(todoIndex);
-    }
-
-    public String completeTodo(int todoIndex) {
-        String todo = todos.remove(todoIndex);
-        completed.add(todo);
-        return todo;
     }
 
     public String getTodo(int index) {

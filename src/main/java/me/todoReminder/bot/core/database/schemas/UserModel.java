@@ -23,36 +23,13 @@ public class UserModel {
         reminders = new ArrayList<>();
     }
 
-    public ObjectId getId() {
-        return id;
-    }
-
     public String getUserID() {
         return userID;
     }
-
 
     public List<TodoList> getTodoLists() {
         return todoLists;
     }
 
-    public List<Reminder> getReminders() {
-        return reminders;
-    }
 
-    public void setId(ObjectId id) {
-        this.id = id;
-    }
-
-    public void setUserID(String userID) {
-        this.userID = userID;
-    }
-
-    public void setTodoLists(List<TodoList> todoLists) {
-        this.todoLists = todoLists;
-    }
-
-    public void setReminders(List<Reminder> reminders) {
-        this.reminders = reminders;
-    }
 }
