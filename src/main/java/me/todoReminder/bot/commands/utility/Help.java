@@ -21,7 +21,7 @@ public class Help extends Command {
     }
 
     public void run(CommandContext ctx) {
-        EmbedBuilder eb = EmbedReplies.infoEmbed();
+        EmbedBuilder eb = EmbedReplies.infoEmbed(false);
 
         String firstArg = ctx.getArgs() != null ? ctx.getArgs().split(" +")[0] : null;
 
@@ -90,6 +90,6 @@ public class Help extends Command {
             eb.setDescription(commandList);
         }
 
-        ctx.sendMessage(eb.build());
+        ctx.sendMessage(eb);
     }
 }

@@ -5,7 +5,7 @@ import me.todoReminder.bot.core.commands.Command;
 import me.todoReminder.bot.core.commands.CommandCategory;
 import me.todoReminder.bot.core.commands.CommandContext;
 import me.todoReminder.bot.core.database.DatabaseManager;
-import me.todoReminder.bot.core.database.models.TodoList;
+import me.todoReminder.bot.core.database.schemas.TodoList;
 
 import java.util.List;
 
@@ -25,11 +25,11 @@ public class New extends Command {
     public void run(CommandContext ctx) {
         List<TodoList> todoLists = ctx.getTodoLists();
         if(todoLists != null && todoLists.size() >= 50) {
-            ctx.sendMessage(EmbedReplies.infoEmbed().setDescription("You already have 50 ToDo Lists!").build());
+            ctx.sendMessage(EmbedReplies.errorEmbed().setDescription("You already have 50 Todo Lists!"));
             return;
         }
-        DatabaseManager.getInstance().newList(ctx.getUser().getId(), ctx.getArgs());
 
-        ctx.sendMessage(EmbedReplies.infoEmbed().setDescription("New ToDo list saved!").build());
+        DatabaseManager.getInstance().newList(ctx.getUserID(), ctx.getArgs());
+        ctx.sendMessage(EmbedReplies.infoEmbed(true).setDescription("New Todo list saved!"));
     }
 }

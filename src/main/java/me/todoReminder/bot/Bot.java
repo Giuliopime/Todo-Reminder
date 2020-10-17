@@ -2,7 +2,7 @@ package me.todoReminder.bot;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.todoReminder.bot.core.commands.CommandHandler;
-import me.todoReminder.bot.core.EventManager;
+import me.todoReminder.bot.events.EventManager;
 import me.todoReminder.bot.core.database.DatabaseManager;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.security.auth.login.LoginException;
-import java.rmi.UnknownHostException;
 
 
 public class Bot {
@@ -25,27 +24,29 @@ public class Bot {
         }
     }
 
-    private Bot() throws Exception {
+    private Bot() {
         JDA jda = null;
         try {
+            // Event waiter is used for Message Collectors in MessageReceived.class
             EventWaiter waiter = new EventWaiter();
             jda = JDABuilder
                     .createDefault(Config.get("TOKEN"))
-                    .setActivity(Activity.watching("your tasks"))
+                    .setActivity(Activity.watching("your tasks | t.help"))
                     .addEventListeners(new EventManager(waiter), waiter)
                     .build()
                     .awaitReady();
 
+            // Registers all the bot commands
             CommandHandler.registerCommands();
 
-            DatabaseManager db = DatabaseManager.getInstance();
-            db.init();
+            // Init the connection to the database
+            DatabaseManager.getInstance();
         } catch (LoginException e) {
             shutdown(null, "Invalid Token for ToDo Reminder!", e);
         } catch (InterruptedException e) {
             shutdown(null, "ToDo Reminder thread got interrupted while booting up!", e);
         } catch (IllegalArgumentException e) {
-            shutdown(jda, "commands / db error!", e);
+            shutdown(jda, "Error while registering the bot commands!", e);
         }
     }
 
@@ -55,7 +56,7 @@ public class Bot {
 
         if(jda != null) jda.shutdown();
 
-        DatabaseManager.getInstance().close();
+        DatabaseManager.getInstance().shutdown();
         System.exit(0);
     }
 }

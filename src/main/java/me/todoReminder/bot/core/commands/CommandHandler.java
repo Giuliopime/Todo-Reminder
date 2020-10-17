@@ -3,7 +3,6 @@ package me.todoReminder.bot.core.commands;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ScanResult;
-import me.todoReminder.bot.Config;
 import me.todoReminder.bot.core.aesthetics.EmbedReplies;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,7 +62,7 @@ public class CommandHandler {
         Command command = COMMANDS.get(ctx.getCommandName());
 
         if(command.requiresArgs() && ctx.getArgs() == null) {
-            ctx.sendMessage(EmbedReplies.errorEmbed().setDescription("Invalid usage of the command.\nThe correct usage would be:\n" + command.getUsageExample(ctx.getPrefix())).build());
+            ctx.sendMessage(EmbedReplies.commandErrorEmbed().setDescription("Invalid usage of the command.\nThe correct usage would be:\n" + command.getUsageExample(ctx.getPrefix())));
             return false;
         }
         return true;
@@ -80,18 +79,11 @@ public class CommandHandler {
         }
 
         if(command != null) {
-            // Command Categories
-            if(command.getCategory().equals(CommandCategory.DEVELOPER)) {
-                if(!ctx.getUser().getId().equalsIgnoreCase(Config.get("OWNER"))) {
-                    ctx.sendMessage(EmbedReplies.warningEmbed().setDescription("This command is restricted to the developers of the bot.").build());
-                    return;
-                }
-            }
             try {
                 command.run(ctx);
             } catch (Exception e) {
-                ctx.sendMessage(EmbedReplies.errorEmbed().setDescription("There has been an error in the execution of the command.\nThe developers are already tracking the issue.").build());
-                log.error("A command generated an error", e);
+                ctx.sendMessage(EmbedReplies.errorEmbed().setDescription("There has been an error in the execution of the command.\nThe developers are already tracking the issue."));
+                log.error("The command '{}' generated an error:", command.getName(), e);
             }
         }
     }

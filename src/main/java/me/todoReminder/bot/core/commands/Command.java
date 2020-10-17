@@ -47,7 +47,7 @@ public abstract class Command {
         return aliases;
     }
 
-    public boolean getChooseList() {
+    public boolean requiresListChoice() {
         return chooseList;
     }
 }

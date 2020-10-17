@@ -3,7 +3,7 @@ package me.todoReminder.bot.core.aesthetics;
 import java.awt.*;
 
 public final class Colors {
-    public static final Color error = Color.decode("#fb4934");
-    public static final Color warning = Color.decode("#fabd2f");
-    public static final Color info = Color.decode("#d3869b");
+    public static final Color error = Color.decode("#f04747");
+    public static final Color info = Color.decode("#7289da");
+    public static final Color success = Color.decode("#43b581");
 }

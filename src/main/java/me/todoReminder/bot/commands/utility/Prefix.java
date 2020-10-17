@@ -5,10 +5,11 @@ import me.todoReminder.bot.core.commands.Command;
 import me.todoReminder.bot.core.commands.CommandCategory;
 import me.todoReminder.bot.core.commands.CommandContext;
 import me.todoReminder.bot.core.database.DatabaseManager;
+import net.dv8tion.jda.api.Permission;
 
 public class Prefix extends Command {
     public static final String name = "prefix",
-            description = "See my prefix or change it with `t.prefix [new prefix]`\nPrefixes are USER BASED",
+            description = "See my prefix or change it with `t.prefix [new prefix]`",
             usage = "[new prefix]";
     private static final CommandCategory category = CommandCategory.UTILITY;
     private static final boolean requiresArgs = false;
@@ -19,22 +20,31 @@ public class Prefix extends Command {
     }
 
     public void run(CommandContext ctx) {
+        if(!ctx.getEvent().isFromGuild()) {
+            ctx.sendMessage(EmbedReplies.errorEmbed().setDescription("You can only execute this command inside a server"));
+            return;
+        }
         if(ctx.getArgs() == null) {
             String prefix = ctx.getPrefix();
-            ctx.sendMessage(EmbedReplies.infoEmbed()
+            ctx.sendMessage(EmbedReplies.infoEmbed(false)
                     .setTitle("Command: prefix")
-                    .setDescription("Your prefix is `"+prefix+"`" +
+                    .setDescription("My prefix here is `"+prefix+"`" +
                             "\nYou can change it with `"+prefix+"prefix [new prefix]`")
-                    .build());
+            );
         } else {
-            String prefix = String.join(" ", ctx.getArgs());
-            if(prefix.length() > 10) {
-                ctx.sendMessage(EmbedReplies.errorEmbed().setDescription("The prefix can't be longer than 10 characters.").build());
+            if(!ctx.getEvent().getMember().hasPermission(Permission.MANAGE_SERVER)) {
+                ctx.sendMessage(EmbedReplies.errorEmbed().setDescription("You need `Manage Server` permissions to use this command."));
                 return;
             }
 
-            DatabaseManager.getInstance().setPrefix(ctx.getUser().getId(), prefix);
-            ctx.sendMessage(EmbedReplies.infoEmbed().setDescription("Prefix set to `"+prefix+"`.").build());
+            String prefix = String.join(" ", ctx.getArgs());
+            if(prefix.length() > 10) {
+                ctx.sendMessage(EmbedReplies.errorEmbed().setDescription("The prefix can't be longer than 10 characters."));
+                return;
+            }
+
+            DatabaseManager.getInstance().setPrefix(ctx.getUserID(), prefix);
+            ctx.sendMessage(EmbedReplies.infoEmbed(true).setDescription("Prefix set to `"+prefix+"`."));
         }
     }
 }

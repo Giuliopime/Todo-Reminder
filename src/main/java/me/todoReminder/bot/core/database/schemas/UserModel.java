@@ -1,9 +1,7 @@
-package me.todoReminder.bot.core.database.models;
+package me.todoReminder.bot.core.database.schemas;
 
-import dev.morphia.annotations.Embedded;
 import dev.morphia.annotations.Entity;
 import dev.morphia.annotations.Id;
-import dev.morphia.annotations.Reference;
 import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
@@ -14,7 +12,6 @@ public class UserModel {
    @Id
    private ObjectId id;
    private String userID;
-   private String prefix;
    private List<TodoList> todoLists;
    private List<Reminder> reminders;
 
@@ -22,7 +19,6 @@ public class UserModel {
     public UserModel(String userID, String prefix) {
         id = new ObjectId();
         this.userID = userID;
-        this.prefix = prefix;
         todoLists = new ArrayList<>();
         reminders = new ArrayList<>();
     }
@@ -35,9 +31,6 @@ public class UserModel {
         return userID;
     }
 
-    public String getPrefix() {
-        return prefix;
-    }
 
     public List<TodoList> getTodoLists() {
         return todoLists;
@@ -53,10 +46,6 @@ public class UserModel {
 
     public void setUserID(String userID) {
         this.userID = userID;
-    }
-
-    public void setPrefix(String prefix) {
-        this.prefix = prefix;
     }
 
     public void setTodoLists(List<TodoList> todoLists) {

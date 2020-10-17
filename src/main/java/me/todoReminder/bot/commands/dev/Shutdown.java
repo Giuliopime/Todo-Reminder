@@ -1,6 +1,7 @@
 package me.todoReminder.bot.commands.dev;
 
 import me.todoReminder.bot.Bot;
+import me.todoReminder.bot.core.aesthetics.EmbedReplies;
 import me.todoReminder.bot.core.commands.Command;
 import me.todoReminder.bot.core.commands.CommandCategory;
 import me.todoReminder.bot.core.commands.CommandContext;
@@ -16,7 +17,7 @@ public class Shutdown extends Command {
     }
 
     public void run(CommandContext ctx) {
-        ctx.sendMessage("Shutting down...");
+        ctx.sendMessage(EmbedReplies.infoEmbed(false).setDescription("Shutting down..."));
         Bot.shutdown(ctx.getJda(), "Bot shut down via the 'shutdown' command", null);
     }
 }

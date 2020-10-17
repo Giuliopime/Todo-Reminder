@@ -4,7 +4,7 @@ import me.todoReminder.bot.core.aesthetics.EmbedReplies;
 import me.todoReminder.bot.core.commands.Command;
 import me.todoReminder.bot.core.commands.CommandCategory;
 import me.todoReminder.bot.core.commands.CommandContext;
-import me.todoReminder.bot.core.database.models.TodoList;
+import me.todoReminder.bot.core.database.schemas.TodoList;
 import net.dv8tion.jda.api.EmbedBuilder;
 
 import java.util.List;
@@ -29,23 +29,24 @@ public class Show extends Command {
     }
 
     public void run(CommandContext ctx) {
-        List<TodoList> todoLists = ctx.getTodoLists();
-        TodoList todoList = todoLists.get(ctx.getListIndex());
+        TodoList todoList = ctx.getSelectedList();
 
-        EmbedBuilder eb = EmbedReplies.infoEmbed().setTitle(todoList.getName());
-        StringBuilder reply = new StringBuilder();
+        EmbedBuilder eb = EmbedReplies.infoEmbed(false).setTitle(todoList.getName());
+        StringBuilder reply = new StringBuilder().append("```yaml\n");
 
         int count = 1;
         if(ctx.getArgs() != null && ctx.getArgs().toLowerCase().contains("--c")) {
             eb.setTitle(todoList.getName() + "  [completed]");
             for (String completedTodo : todoList.getCompleted())
-                reply.append(count++).append(". ").append(completedTodo).append("\n");
+                reply.append(count++).append(": ").append(completedTodo).append("\n");
         }
         else {
             for (String todo : todoList.getTodos())
-                reply.append(count++).append(". ").append(todo).append("\n");
+                reply.append(count++).append(": ").append(todo).append("\n");
         }
 
-        ctx.sendMessage(eb.setDescription(reply).build());
+        reply.append("```");
+
+        ctx.sendMessage(eb.setDescription(reply));
     }
 }

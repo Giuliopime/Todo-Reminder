@@ -23,11 +23,11 @@ public class Add extends Command {
 
     public void run(CommandContext ctx) {
         if(ctx.getTodoLists().get(ctx.getListIndex()).getTodos().size() >= 100) {
-            ctx.sendMessage(EmbedReplies.warningEmbed().setDescription("You already have 100 todos in that list!").build());
+            ctx.sendMessage(EmbedReplies.errorEmbed().setDescription("You already have 100 Todos in that list!"));
             return;
         }
-        DatabaseManager.getInstance().addTodo(ctx.getUser().getId(), ctx.getListIndex(), ctx.getArgs());
+        DatabaseManager.getInstance().addTodo(ctx.getUserID(), ctx.getListIndex(), ctx.getArgs());
 
-        ctx.sendMessage(EmbedReplies.infoEmbed().setDescription("ToDo added!").build());
+        ctx.sendMessage(EmbedReplies.infoEmbed(true).setDescription("Todo added!"));
     }
 }

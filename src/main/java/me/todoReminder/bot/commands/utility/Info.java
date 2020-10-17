@@ -23,13 +23,13 @@ public class Info extends Command {
 
     public void run(CommandContext ctx) {
         JDA jda = ctx.getJda();
-        EmbedBuilder eb = EmbedReplies.infoEmbed()
+        EmbedBuilder eb = EmbedReplies.infoEmbed(false)
                 .setAuthor(jda.getSelfUser().getName())
                 .setDescription(Emojis.todo+"Version: `Alpha`\n" +
                         Emojis.todo+"Library: `JDA`\n" +
                         Emojis.todo+"Developer: `</> Giuliopime#4965`\n" +
                         Emojis.completed+"Servers: `"+jda.getGuilds().size()+"`\n" +
                         Emojis.completed+"Users: `"+jda.getUsers().size()+"`");
-        ctx.sendMessage(eb.build());
+        ctx.sendMessage(eb);
     }
 }

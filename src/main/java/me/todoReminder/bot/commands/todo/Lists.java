@@ -4,10 +4,7 @@ import me.todoReminder.bot.core.aesthetics.EmbedReplies;
 import me.todoReminder.bot.core.commands.Command;
 import me.todoReminder.bot.core.commands.CommandCategory;
 import me.todoReminder.bot.core.commands.CommandContext;
-import me.todoReminder.bot.core.database.models.TodoList;
-import net.dv8tion.jda.api.EmbedBuilder;
-
-import java.util.List;
+import me.todoReminder.bot.core.database.schemas.TodoList;
 
 public class Lists extends Command {
     public static final String name = "lists",
@@ -23,13 +20,14 @@ public class Lists extends Command {
     }
 
     public void run(CommandContext ctx) {
-        StringBuilder reply = new StringBuilder();
+        StringBuilder reply = new StringBuilder().append("```yaml\n");
 
         int count = 1;
-        for(TodoList todoList: ctx.getTodoLists()) {
-            reply.append(count++).append(". ").append(todoList.getName()).append("\n");
-        }
+        for(TodoList todoList: ctx.getTodoLists())
+            reply.append(count++).append(": ").append(todoList.getName()).append("\n");
 
-        ctx.sendMessage(EmbedReplies.infoEmbed().setTitle("All your ToDo Lists").setDescription(reply).build());
+        reply.append("```");
+
+        ctx.sendMessage(EmbedReplies.infoEmbed(false).setTitle("All your Todo Lists").setDescription(reply));
     }
 }

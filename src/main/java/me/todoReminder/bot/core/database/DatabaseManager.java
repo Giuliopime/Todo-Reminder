@@ -7,21 +7,15 @@ import dev.morphia.Morphia;
 import dev.morphia.mapping.MapperOptions;
 import dev.morphia.query.Query;
 import dev.morphia.query.experimental.filters.Filters;
-import dev.morphia.query.experimental.updates.UpdateOperator;
 import dev.morphia.query.experimental.updates.UpdateOperators;
 import me.todoReminder.bot.core.commands.CommandContext;
-import me.todoReminder.bot.core.database.models.Reminder;
-import me.todoReminder.bot.core.database.models.TodoList;
-import me.todoReminder.bot.core.database.models.UserModel;
-import net.dv8tion.jda.api.entities.User;
-import org.bson.types.ObjectId;
+import me.todoReminder.bot.core.database.schemas.GuildSchema;
+import me.todoReminder.bot.core.database.schemas.TodoList;
+import me.todoReminder.bot.core.database.schemas.UserModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 
 public class DatabaseManager {
@@ -31,7 +25,12 @@ public class DatabaseManager {
     private MongoClient mongoClient;
 
 
-    private DatabaseManager() {}
+    private DatabaseManager() {
+        mongoClient = MongoClients.create();
+        datastore = Morphia.createDatastore(mongoClient, "todoReminderDB", MapperOptions.builder().storeEmpties(true).build());
+        datastore.getMapper().mapPackage("me.todoReminder.bot.core.database.models");
+        datastore.ensureIndexes();
+    }
 
     public static DatabaseManager getInstance() {
         if(instance == null) {
@@ -40,14 +39,7 @@ public class DatabaseManager {
         return instance;
     }
 
-    public void init() {
-        mongoClient = MongoClients.create();
-        datastore = Morphia.createDatastore(mongoClient, "todoReminderDB", MapperOptions.builder().storeEmpties(true).build());
-        datastore.getMapper().mapPackage("me.todoReminder.bot.core.database.models");
-        datastore.ensureIndexes();
-    }
-
-    public void close() {
+    public void shutdown() {
         mongoClient.close();
     }
 
@@ -65,10 +57,20 @@ public class DatabaseManager {
         }
     }
 
-    // Update
-    public void setPrefix(String userID, String prefix) {
-        datastore.find(UserModel.class)
-                .filter(Filters.eq("userID", userID))
+    public String getPrefix(String guildID) {
+        Query<GuildSchema> query = datastore.find(GuildSchema.class)
+                .filter(Filters.eq("guildID", guildID));
+
+        if(query.first() != null) return query.first().getPrefix();
+        else {
+            GuildSchema guildSchema = new GuildSchema(guildID, "t.");
+            datastore.save(guildSchema);
+            return guildSchema.getPrefix();
+        }
+    }
+    public void setPrefix(String guildID, String prefix) {
+        datastore.find(GuildSchema.class)
+                .filter(Filters.eq("guildID", guildID))
                 .update(UpdateOperators.set("prefix", prefix))
                 .execute();
     }

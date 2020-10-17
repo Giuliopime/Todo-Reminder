@@ -1,9 +1,7 @@
-package me.todoReminder.bot.core.database.models;
+package me.todoReminder.bot.core.database.schemas;
 
 import dev.morphia.annotations.Embedded;
-import dev.morphia.annotations.Entity;
-import dev.morphia.annotations.Id;
-import org.bson.types.ObjectId;
+
 import java.util.ArrayList;
 import java.util.List;
 @Embedded

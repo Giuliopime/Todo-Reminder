@@ -1,11 +1,11 @@
 package me.todoReminder.bot.commands.todo;
 
 import me.todoReminder.bot.core.aesthetics.EmbedReplies;
+import me.todoReminder.bot.core.aesthetics.Emojis;
 import me.todoReminder.bot.core.commands.Command;
 import me.todoReminder.bot.core.commands.CommandCategory;
 import me.todoReminder.bot.core.commands.CommandContext;
 import me.todoReminder.bot.core.database.DatabaseManager;
-import me.todoReminder.bot.core.database.models.TodoList;
 
 public class Complete extends Command {
     public static final String name = "complete",
@@ -31,22 +31,22 @@ public class Complete extends Command {
             number = Integer.parseInt(args);
         } catch(Exception ignored) {}
 
-        if(number > 0 && number < ctx.getTodoLists().get(ctx.getListIndex()).getTodos().size() + 1)
+        if(number > 0 && number < ctx.getSelectedList().getTodos().size() + 1)
             todoIndex = number - 1;
         else {
-            for(String todo: ctx.getTodoLists().get(ctx.getListIndex()).getTodos()) {
+            for(String todo: ctx.getSelectedList().getTodos()) {
                 if(todo.toLowerCase().contains(args.toLowerCase())) {
-                    todoIndex = ctx.getTodoLists().get(ctx.getListIndex()).getTodos().indexOf(todo);
+                    todoIndex = ctx.getSelectedList().getTodos().indexOf(todo);
                     break;
                 }
             }
         }
 
         if(todoIndex > -1) {
-            ctx.sendMessage(EmbedReplies.infoEmbed().setDescription("The following To Do has been marked as completed:\n\n"+ctx.getTodoLists().get(ctx.getListIndex()).getTodos().get(todoIndex)).build());
-            DatabaseManager.getInstance().completeTodo(ctx.getUser().getId(), ctx.getListIndex(), ctx.getTodoLists().get(ctx.getListIndex()).getTodo(todoIndex));
+            DatabaseManager.getInstance().completeTodo(ctx.getUserID(), ctx.getListIndex(), ctx.getSelectedList().getTodo(todoIndex));
+            ctx.sendMessage(EmbedReplies.infoEmbed(true).setDescription("**The following Todo has been marked as completed:**\n\n*"+ Emojis.completed+" "+ctx.getSelectedList().getTodo(todoIndex)+"*"));
         } else {
-            ctx.sendMessage(EmbedReplies.warningEmbed().setDescription("To Do not found. Please provide it's number or some of it's content.\nSee `"+ctx.getPrefix()+"help complete`").build());
+            ctx.sendMessage(EmbedReplies.errorEmbed().setDescription("Todo not found. Please provide it's number or some of it's content.\nSee `"+ctx.getPrefix()+"help complete`"));
         }
     }
 }

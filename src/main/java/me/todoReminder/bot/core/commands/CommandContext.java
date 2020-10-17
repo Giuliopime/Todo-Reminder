@@ -1,78 +1,70 @@
 package me.todoReminder.bot.core.commands;
 
-import me.todoReminder.bot.core.database.models.TodoList;
+import me.todoReminder.bot.core.database.schemas.GuildSchema;
+import me.todoReminder.bot.core.database.schemas.TodoList;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import me.todoReminder.bot.core.database.models.UserModel;
+import me.todoReminder.bot.core.database.schemas.UserModel;
 import net.dv8tion.jda.api.entities.User;
 
 import java.util.List;
 
 public class CommandContext {
-    private final MessageReceivedEvent event;
-    private final String commandName;
-    private String args;
     private final JDA jda;
-    private final UserModel userData;
+    private final MessageReceivedEvent event;
     private final MessageChannel channel;
+    private String commandName;
+    private String args;
+    private final String prefix;
     private int listIndex;
+    private final UserModel userData;
 
 
-    public CommandContext(MessageReceivedEvent event, String commandName, String args, UserModel userData, int listIndex) {
+    public CommandContext(MessageReceivedEvent event, String commandName, String args, UserModel userData, int listIndex, String prefix) {
+        jda = event.getJDA();
         this.event = event;
+        channel = event.getChannel();
         this.commandName = commandName;
         this.args = args;
-        this.userData = userData;
-        jda = event.getJDA();
-        channel = event.getChannel();
+        this.prefix = prefix;
         this.listIndex = listIndex;
+        this.userData = userData;
     }
 
-    // Get full events
+
+    // Useful methods
+    public void sendMessage(EmbedBuilder m) {
+        channel.sendMessage(m.build()).queue();
+    }
+
+    public String getUserID() {
+        return userData.getUserID();
+    }
+
+    // Database
+    public List<TodoList> getTodoLists() {
+        return userData.getTodoLists();
+    }
+
+    public TodoList getSelectedList() {
+        return userData.getTodoLists().get(listIndex);
+    }
+
+    // Getters
+    public JDA getJda() {
+        return jda;
+    }
+
     public MessageReceivedEvent getEvent() {
         return event;
-    }
-
-    public void sendMessage(Message m) {
-        channel.sendMessage(m).queue();
-    }
-
-    public void sendMessage(String m) {
-        channel.sendMessage(m).queue();
-    }
-
-    public void sendMessage(MessageEmbed m) {
-        channel.sendMessage(m).queue();
     }
 
     public MessageChannel getChannel() {
         return channel;
     }
 
-    public User getUser() {
-        return event.getAuthor();
-    }
-
-    public Message getMessage() {
-        return event.getMessage();
-    }
-
-    // Database
-    public UserModel getUserData() {
-        return userData;
-    }
-
-    public String getPrefix() {
-        return userData.getPrefix();
-    }
-
-    public List<TodoList> getTodoLists() {
-        return userData.getTodoLists();
-    }
-
-
-    // Command
     public String getCommandName() {
         return commandName;
     }
@@ -81,19 +73,25 @@ public class CommandContext {
         return args;
     }
 
-    public JDA getJda() {
-        return jda;
+    public String getPrefix() {
+        return prefix;
     }
 
     public int getListIndex() {
         return listIndex;
     }
 
-    public void setListIndex(int listChoice) {
-        this.listIndex = listChoice;
+
+    // Setters
+    public void setCommandName(String commandName) {
+        this.commandName = commandName;
     }
 
     public void setArgs(String args) {
         this.args = args;
+    }
+
+    public void setListIndex(int listChoice) {
+        this.listIndex = listChoice;
     }
 }

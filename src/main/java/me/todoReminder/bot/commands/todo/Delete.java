@@ -5,7 +5,6 @@ import me.todoReminder.bot.core.commands.Command;
 import me.todoReminder.bot.core.commands.CommandCategory;
 import me.todoReminder.bot.core.commands.CommandContext;
 import me.todoReminder.bot.core.database.DatabaseManager;
-import me.todoReminder.bot.core.database.models.TodoList;
 
 public class Delete extends Command {
     public static final String name = "delete",
@@ -14,7 +13,7 @@ public class Delete extends Command {
                     "\nExample: `t.delete --1`",
             usage = "(flags | See t.help delete)";
     private static final CommandCategory category = CommandCategory.TODO;
-    private static final boolean requiresArgs = true;
+    private static final boolean requiresArgs = false;
     private static final String[] aliases = {"d"};
     private static final boolean chooseList = true;
 
@@ -23,7 +22,7 @@ public class Delete extends Command {
     }
 
     public void run(CommandContext ctx) {
-        ctx.sendMessage(EmbedReplies.infoEmbed().setDescription("**The following To Do List has been deleted:**\n"+ctx.getTodoLists().get(ctx.getListIndex()).getName()).build());
-        DatabaseManager.getInstance().deleteList(ctx.getUser().getId(), ctx);
+        DatabaseManager.getInstance().deleteList(ctx.getUserID(), ctx);
+        ctx.sendMessage(EmbedReplies.infoEmbed(true).setDescription("The following Todo List has been deleted:\n*"+ctx.getSelectedList().getName()+"*"));
     }
 }
