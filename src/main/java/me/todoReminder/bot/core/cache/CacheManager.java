@@ -1,6 +1,7 @@
 package me.todoReminder.bot.core.cache;
 
 import com.google.gson.Gson;
+import me.todoReminder.bot.Config;
 import me.todoReminder.bot.core.database.DatabaseManager;
 import me.todoReminder.bot.core.database.schemas.GuildSchema;
 import me.todoReminder.bot.core.database.schemas.ReminderSchema;
@@ -20,7 +21,7 @@ public class CacheManager {
     private final Gson gson;
 
     private CacheManager() {
-        jedis = new Jedis("localhost", 6379);
+        jedis = new Jedis("localhost", Integer.parseInt(Config.get("REDISPORT")));
         gson = new Gson();
     }
 
