@@ -8,10 +8,7 @@ import me.todoReminder.bot.core.database.schemas.ReminderSchema;
 import me.todoReminder.bot.core.database.schemas.UserSchema;
 import redis.clients.jedis.Jedis;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
