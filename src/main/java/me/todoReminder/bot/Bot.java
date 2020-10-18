@@ -50,7 +50,7 @@ public class Bot {
 
             ShortReminders.getInstance();
 
-            LongReminders.getInstance(jda);
+            LongReminders.getInstance(jda).run();
         } catch (LoginException e) {
             shutdown(null, "Invalid Token for ToDo Reminder!", e);
         } catch (InterruptedException e) {

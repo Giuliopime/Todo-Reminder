@@ -5,6 +5,7 @@ import me.todoReminder.bot.core.cache.CacheManager;
 import me.todoReminder.bot.core.database.DatabaseManager;
 import me.todoReminder.bot.core.database.schemas.ReminderSchema;
 import net.dv8tion.jda.api.JDA;
+import org.joda.time.DateTime;
 
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -36,22 +37,24 @@ public class LongReminders {
         Runnable sendReminders = () -> {
             List<ReminderSchema> reminders = CacheManager.getInstance().getAllReminders();
             for(ReminderSchema reminder: reminders) {
-                jda.openPrivateChannelById(reminder.getUserID()).queue(
-                        pvc -> {
-                            pvc.sendMessage(EmbedReplies.infoEmbed(true).setTitle("Reminder").setDescription(reminder.getReminder() ).build()).queue();
-                        }
-                );
+                if(DateTime.now().getMillis() >= reminder.getMilliseconds()) {
+                    jda.openPrivateChannelById(reminder.getUserID()).queue(
+                            pvc -> {
+                                pvc.sendMessage(EmbedReplies.infoEmbed(true).setTitle("Reminder").setDescription(reminder.getReminder()).build()).queue();
+                            }
+                    );
 
-                removerReminder(reminder.getId());
+                    removerReminder(reminder.getId());
 
-                if(reminder.isDaily() || reminder.isWeekly()) {
-                    if (reminder.isDaily())
-                        reminder.setMilliseconds(reminder.getMilliseconds() + 86400000);
+                    if (reminder.isDaily() || reminder.isWeekly()) {
+                        if (reminder.isDaily())
+                            reminder.setMilliseconds(reminder.getMilliseconds() + 86400000);
 
-                    else if (reminder.isWeekly())
-                        reminder.setMilliseconds(reminder.getMilliseconds() + 604800000);
+                        else if (reminder.isWeekly())
+                            reminder.setMilliseconds(reminder.getMilliseconds() + 604800000);
 
-                    newReminder(reminder);
+                        newReminder(reminder);
+                    }
                 }
             }
         };
