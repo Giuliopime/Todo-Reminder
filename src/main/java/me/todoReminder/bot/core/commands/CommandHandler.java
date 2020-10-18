@@ -46,7 +46,7 @@ public class CommandHandler {
             String alias = ALIASES.get(commandName.toLowerCase());
             if(alias != null) command = COMMANDS.get(alias);
         }
-        return command != null ? command.getName() : null;
+        return command != null ? command.getName().toLowerCase() : null;
     }
 
     public static Command getCommand(String commandName) {

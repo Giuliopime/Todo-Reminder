@@ -23,6 +23,7 @@ dependencies {
     compile 'org.mongodb:mongodb-driver-sync:4.1.0'
     compile 'dev.morphia.morphia:morphia-core:2.0.1'
     compile group: 'redis.clients', name: 'jedis', version: '3.3.0'
+    compile 'joda-time:joda-time:2.10.6'
     implementation 'com.google.code.gson:gson:2.8.6'
 }
 

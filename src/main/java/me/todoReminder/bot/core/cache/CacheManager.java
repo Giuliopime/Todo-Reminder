@@ -1,13 +1,18 @@
 package me.todoReminder.bot.core.cache;
 
 import com.google.gson.Gson;
+import me.todoReminder.bot.core.database.DatabaseManager;
 import me.todoReminder.bot.core.database.schemas.GuildSchema;
+import me.todoReminder.bot.core.database.schemas.ReminderSchema;
 import me.todoReminder.bot.core.database.schemas.UserSchema;
 import redis.clients.jedis.Jedis;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 public class CacheManager {
     private static CacheManager instance;
@@ -71,5 +76,31 @@ public class CacheManager {
     // Invalidate cache
     public void invalidateData(String ID) {
         jedis.del(ID);
+    }
+
+    // Reminders
+    public List<ReminderSchema> getAllReminders() {
+        Map<String, String> reminders = jedis.hgetAll("reminders");
+        if(reminders == null || reminders.isEmpty()) return new ArrayList<>();
+
+        List<ReminderSchema> reminderSchemas = new ArrayList<>();
+        for(String reminderSchemaJSON: reminders.values())
+            reminderSchemas.add(gson.fromJson(reminderSchemaJSON, ReminderSchema.class));
+
+        return reminderSchemas;
+    }
+
+    public void setAllReminders() {
+        List<ReminderSchema> reminders = DatabaseManager.getInstance().getAllReminders();
+        for(ReminderSchema reminderSchema: reminders)
+            jedis.hset("reminders", reminderSchema.getId(), gson.toJson(reminderSchema));
+    }
+
+    public void addReminder(ReminderSchema reminderSchema) {
+        jedis.hset("reminders", reminderSchema.getId(), gson.toJson(reminderSchema));
+    }
+
+    public void removeReminder(String reminderID) {
+        jedis.hdel("reminders", reminderID);
     }
 }

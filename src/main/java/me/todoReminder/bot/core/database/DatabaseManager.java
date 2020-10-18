@@ -11,10 +11,13 @@ import dev.morphia.query.experimental.updates.UpdateOperators;
 import me.todoReminder.bot.core.cache.CacheManager;
 import me.todoReminder.bot.core.commands.CommandContext;
 import me.todoReminder.bot.core.database.schemas.GuildSchema;
+import me.todoReminder.bot.core.database.schemas.ReminderSchema;
 import me.todoReminder.bot.core.database.schemas.TodoList;
 import me.todoReminder.bot.core.database.schemas.UserSchema;
+import org.bson.types.ObjectId;
 
 import java.util.Collections;
+import java.util.List;
 
 
 public class DatabaseManager {
@@ -39,6 +42,21 @@ public class DatabaseManager {
 
     public void shutdown() {
         mongoClient.close();
+    }
+
+    // Reminders
+    public List<ReminderSchema> getAllReminders() {
+        return datastore.find(ReminderSchema.class).iterator().toList();
+    }
+
+    public void saveReminder(ReminderSchema reminderSchema) {
+        datastore.save(reminderSchema);
+    }
+
+    public void removeReminder(String reminderID) {
+        datastore.find(ReminderSchema.class)
+                .filter(Filters.eq("id", new ObjectId(reminderID)))
+                .delete();
     }
 
     // Getters for the database

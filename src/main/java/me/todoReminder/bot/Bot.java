@@ -3,6 +3,8 @@ package me.todoReminder.bot;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.todoReminder.bot.core.cache.CacheManager;
 import me.todoReminder.bot.core.commands.CommandHandler;
+import me.todoReminder.bot.core.reminders.LongReminders;
+import me.todoReminder.bot.core.reminders.ShortReminders;
 import me.todoReminder.bot.events.EventManager;
 import me.todoReminder.bot.core.database.DatabaseManager;
 import net.dv8tion.jda.api.JDA;
@@ -45,6 +47,10 @@ public class Bot {
 
             // Connect to redis cache
             CacheManager.getInstance();
+
+            ShortReminders.getInstance();
+
+            LongReminders.getInstance(jda);
         } catch (LoginException e) {
             shutdown(null, "Invalid Token for ToDo Reminder!", e);
         } catch (InterruptedException e) {
@@ -62,6 +68,8 @@ public class Bot {
 
         DatabaseManager.getInstance().shutdown();
         CacheManager.getInstance().shutdown();
-        System.exit(0);
+
+        ShortReminders.getInstance().shutdown();
+        LongReminders.getInstance(jda).shutdown();
     }
 }

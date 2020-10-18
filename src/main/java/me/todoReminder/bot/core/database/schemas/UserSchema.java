@@ -13,14 +13,12 @@ public class UserSchema {
    private ObjectId id;
    private String userID;
    private List<TodoList> todoLists;
-   private List<Reminder> reminders;
 
     public UserSchema() { }
     public UserSchema(String userID) {
         id = new ObjectId();
         this.userID = userID;
         todoLists = new ArrayList<>();
-        reminders = new ArrayList<>();
     }
 
     public String getUserID() {
