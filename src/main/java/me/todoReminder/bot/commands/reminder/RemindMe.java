@@ -9,6 +9,7 @@ import me.todoReminder.bot.core.database.schemas.ReminderSchema;
 import me.todoReminder.bot.core.reminders.LongReminders;
 import me.todoReminder.bot.core.reminders.ShortReminders;
 import org.joda.time.DateTime;
+import org.joda.time.Minutes;
 import org.joda.time.format.DateTimeFormat;
 
 import java.text.SimpleDateFormat;
@@ -16,8 +17,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.spi.TimeZoneNameProvider;
 
 public class RemindMe extends Command {
     private static final String name = "remindMe",
@@ -25,39 +28,61 @@ public class RemindMe extends Command {
                     "\n**Make sure your DMs are open**" +
                     "\n\n\nThe `[message]` is the message the bot will send you in the DMs." +
                     "\n\nThe `[time]` is the time at which the bot will remind you" +
-                    "\nIts format is `dd.mm.yyyy hh:mm`" +
+                    "\nIts format is `days hours minutes`: `d h m`" +
                     "\n\nThe possible `[flags]` are:" +
                     "\n`--daily` to make the reminder daily" +
-                    "\n`--weekly` to make the reminder weekly",
+                    "\n`--weekly` to make the reminder weekly" +
+                    "\n\nExample usage:" +
+                    "\n`t.remindMe 1h 2m Do something` this will set a reminder in 1 hour and 2 minutes",
             usage ="[time] [message] (flags | See t.help remindMe)";
     private static final CommandCategory category = CommandCategory.REMINDER;
     private static final boolean requiresArgs = true;
     private static final String[] aliases = {"rm"};
 
-    // This pattern is from JuniperBot (https://github.com/JuniperBot/JuniperBot/blob/master/jb-worker/src/main/java/ru/juniperbot/worker/commands/RemindCommand.java)
-    private static final Pattern PATTERN = Pattern.compile("^(\\d{2}\\.\\d{2}\\.\\d{4})\\s+(\\d{2}:\\d{2})\\s+(.*)$");
+    private static final Pattern DAYS = Pattern.compile("(\\d{1,2})d", Pattern.CASE_INSENSITIVE);
+    private static final Pattern HOURS = Pattern.compile("(\\d{1,2})h", Pattern.CASE_INSENSITIVE);
+    private static final Pattern MINUTES = Pattern.compile("(\\d{1,2})m", Pattern.CASE_INSENSITIVE);
 
     public RemindMe() {
         super(name, description, usage, category, requiresArgs, aliases, false);
     }
 
     public void run(CommandContext ctx) {
-        Matcher m = PATTERN.matcher(ctx.getArgs());
+        // This is probably shit ik  ¯\_(ツ)_/¯
+        String reminder = ctx.getArgs();
 
-        if(!m.find()) {
+        Matcher daysMatcher = DAYS.matcher(reminder);
+        Matcher hoursMatcher = HOURS.matcher(reminder);
+        Matcher minutesMatcher = MINUTES.matcher(reminder);
+
+        boolean foundDays = daysMatcher.find(),
+                foundHours = hoursMatcher.find(),
+                foundMinutes = minutesMatcher.find();
+
+        if(!foundDays && !foundHours && !foundMinutes) {
             ctx.sendMessage(EmbedReplies.errorEmbed().setDescription("**The reminder is formatted incorrectly**\nSee `"+ctx.getPrefix()+"help remindMe`"));
             return;
         }
 
-        DateTime date = DateTimeFormat.forPattern("dd.MM.yyyy HH:mm").parseDateTime(String.format("%s %s", m.group(1), m.group(2)));
-        String reminder = m.group(3);
-        if (DateTime.now().isAfter(date)) {
-            ctx.sendMessage(EmbedReplies.errorEmbed().setDescription("The time you provided is in the past, I'm not yet able to time-travel sorry."));
-            return;
+        int days = 0, hours = 0, minutes = 0;
+
+        if(foundDays) {
+            days = Integer.parseInt(daysMatcher.group(1));
+            reminder = reminder.replace(daysMatcher.group(1), "");
+        }
+        if(foundHours) {
+            hours = Integer.parseInt(hoursMatcher.group(1));
+            reminder = reminder.replace(hoursMatcher.group(1), "");
+        }
+        if(foundMinutes) {
+            minutes = Integer.parseInt(minutesMatcher.group(1));
+            reminder = reminder.replace(minutesMatcher.group(1), "");
         }
 
         boolean daily = false, weekly = false;
-        long reminderTime = date.getMillis();
+
+        long reminderTime = System.currentTimeMillis() + (days * 86400000) + (hours * 3600000) + (minutes * 60000);
+
 
         if(reminder.contains("--daily")) {
             daily = true;
