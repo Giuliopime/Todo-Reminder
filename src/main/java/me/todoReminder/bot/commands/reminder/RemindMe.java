@@ -58,7 +58,7 @@ public class RemindMe extends Command {
 
         boolean daily = false, weekly = false;
         long reminderTime = date.getMillis();
-        System.out.println(reminderTime);
+
         if(reminder.contains("--daily")) {
             daily = true;
             reminder = reminder.replace("--daily", "");
@@ -69,7 +69,7 @@ public class RemindMe extends Command {
         }
 
         long currentTimeMS = System.currentTimeMillis();
-        System.out.println(currentTimeMS);
+
         if(reminderTime - currentTimeMS < 120000) {
             ShortReminders.getInstance().newShortReminder(ctx.getUserID(), reminder, reminderTime - currentTimeMS, ctx.getJda());
 
