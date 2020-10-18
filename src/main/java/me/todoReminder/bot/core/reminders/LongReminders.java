@@ -37,7 +37,10 @@ public class LongReminders {
         Runnable sendReminders = () -> {
             List<ReminderSchema> reminders = CacheManager.getInstance().getAllReminders();
             for(ReminderSchema reminder: reminders) {
-                if(DateTime.now().getMillis() >= reminder.getMilliseconds()) {
+                System.out.println(System.currentTimeMillis());
+                System.out.println(reminder.getMilliseconds());
+
+                if(System.currentTimeMillis() >= reminder.getMilliseconds()) {
                     jda.openPrivateChannelById(reminder.getUserID()).queue(
                             pvc -> {
                                 pvc.sendMessage(EmbedReplies.infoEmbed(true).setTitle("Reminder").setDescription(reminder.getReminder()).build()).queue();
