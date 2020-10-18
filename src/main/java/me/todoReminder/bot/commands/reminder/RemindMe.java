@@ -43,45 +43,46 @@ public class RemindMe extends Command {
 
     public void run(CommandContext ctx) {
         Matcher m = PATTERN.matcher(ctx.getArgs());
-        if (m.find()) {
-            DateTime date = DateTimeFormat.forPattern("dd.MM.yyyy HH:mm").parseDateTime(String.format("%s %s", m.group(1), m.group(2)));
-            String reminder = m.group(3);
-            if (DateTime.now().isAfter(date)) {
-                ctx.sendMessage(EmbedReplies.errorEmbed().setDescription("The time you provided is in the past, I'm not yet able to time-travel sorry."));
-                return;
-            }
 
-            boolean daily = false, weekly = false;
-            long reminderTime = date.getMillis();
-            if(reminder.contains("--daily")) {
-                daily = true;
-                reminder = reminder.replace("--daily", "");
-            }
-            if(reminder.contains("--weekly")) {
-                weekly = true;
-                reminder = reminder.replace("--weekly", "");
-            }
-
-            long currentTimeMS = DateTime.now().getMillis();
-            if(date.getMillis() - currentTimeMS < 120000) {
-                ShortReminders.getInstance().newShortReminder(ctx.getUserID(), reminder, reminderTime - currentTimeMS, ctx.getJda());
-
-                reminderTime = 0;
-                if(daily)
-                    reminderTime = reminderTime + 86400000;
-                if(weekly)
-                    reminderTime = reminderTime + 604800000;
-            }
-
-            if(reminderTime != 0) {
-                ReminderSchema reminderSchema = new ReminderSchema(ctx.getUserID(), reminder, reminderTime, daily, weekly);
-                LongReminders.getInstance(ctx.getJda()).newReminder(reminderSchema);
-            }
-
-            ctx.sendMessage(EmbedReplies.infoEmbed(true).setDescription("**Reminder set!**\n\n*Make sure your DMs are open*"));
-        }
-        else {
+        if(!m.find()) {
             ctx.sendMessage(EmbedReplies.errorEmbed().setDescription("**The reminder is formatted incorrectly**\nSee `"+ctx.getPrefix()+"help remindMe`"));
+            return;
         }
+
+        DateTime date = DateTimeFormat.forPattern("dd.MM.yyyy HH:mm").parseDateTime(String.format("%s %s", m.group(1), m.group(2)));
+        String reminder = m.group(3);
+        if (DateTime.now().isAfter(date)) {
+            ctx.sendMessage(EmbedReplies.errorEmbed().setDescription("The time you provided is in the past, I'm not yet able to time-travel sorry."));
+            return;
+        }
+
+        boolean daily = false, weekly = false;
+        long reminderTime = date.getMillis();
+        if(reminder.contains("--daily")) {
+            daily = true;
+            reminder = reminder.replace("--daily", "");
+        }
+        if(reminder.contains("--weekly")) {
+            weekly = true;
+            reminder = reminder.replace("--weekly", "");
+        }
+
+        long currentTimeMS = DateTime.now().getMillis();
+        if(date.getMillis() - currentTimeMS < 120000) {
+            ShortReminders.getInstance().newShortReminder(ctx.getUserID(), reminder, reminderTime - currentTimeMS, ctx.getJda());
+
+            reminderTime = 0;
+            if(daily)
+                reminderTime = reminderTime + 86400000;
+            if(weekly)
+                reminderTime = reminderTime + 604800000;
+        }
+
+        if(reminderTime != 0) {
+            ReminderSchema reminderSchema = new ReminderSchema(ctx.getUserID(), reminder, reminderTime, daily, weekly);
+            LongReminders.getInstance(ctx.getJda()).newReminder(reminderSchema);
+        }
+
+        ctx.sendMessage(EmbedReplies.infoEmbed(true).setDescription("**Reminder set!**\n\n*Make sure your DMs are open*"));
     }
 }
