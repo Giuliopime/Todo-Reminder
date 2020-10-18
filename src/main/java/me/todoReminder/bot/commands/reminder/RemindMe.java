@@ -27,8 +27,8 @@ public class RemindMe extends Command {
                     "\n\nThe `[time]` is the time at which the bot will remind you" +
                     "\nIts format is `dd.mm.yyyy hh:mm`" +
                     "\n\nThe possible `[flags]` are:" +
-                    "\n`--d` to make the reminder daily" +
-                    "\n`--w` to make the reminder weekly",
+                    "\n`--daily` to make the reminder daily" +
+                    "\n`--weekly` to make the reminder weekly",
             usage ="[time] [message] (flags | See t.help remindMe)";
     private static final CommandCategory category = CommandCategory.REMINDER;
     private static final boolean requiresArgs = true;
