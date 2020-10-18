@@ -8,7 +8,7 @@ import me.todoReminder.bot.core.database.schemas.TodoList;
 
 public class Lists extends Command {
     public static final String name = "lists",
-            description = "Shows you all your ToDo Lists",
+            description = "Shows you all your Todo Lists",
             usage = null;
     private static final CommandCategory category = CommandCategory.TODO;
     private static final boolean requiresArgs = false;

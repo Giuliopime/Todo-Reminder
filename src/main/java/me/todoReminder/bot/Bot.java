@@ -34,7 +34,7 @@ public class Bot {
             EventWaiter waiter = new EventWaiter();
             jda = JDABuilder
                     .createDefault(Config.get("TOKEN"))
-                    .setActivity(Activity.watching("your tasks | t.help"))
+                    .setActivity(Activity.watching("your todos | t.help"))
                     .addEventListeners(new EventManager(waiter), waiter)
                     .build()
                     .awaitReady();
@@ -52,9 +52,9 @@ public class Bot {
 
             LongReminders.getInstance(jda).run();
         } catch (LoginException e) {
-            shutdown(null, "Invalid Token for ToDo Reminder!", e);
+            shutdown(null, "Invalid Token for Todo Reminder!", e);
         } catch (InterruptedException e) {
-            shutdown(null, "ToDo Reminder thread got interrupted while booting up!", e);
+            shutdown(null, "Todo Reminder thread got interrupted while booting up!", e);
         } catch (IllegalArgumentException e) {
             shutdown(jda, "Error while registering the bot commands!", e);
         }

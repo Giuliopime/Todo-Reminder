@@ -8,8 +8,8 @@ import me.todoReminder.bot.core.database.DatabaseManager;
 
 public class Delete extends Command {
     public static final String name = "delete",
-            description = "Delete a ToDo list" +
-                    "\nIf you have multiple ToDo lists you can quickly select one with the flag `--number`" +
+            description = "Delete a Todo list" +
+                    "\nIf you have multiple Todo lists you can quickly select one with the flag `--number`" +
                     "\nExample: `t.delete --1`",
             usage = "(flags | See t.help delete)";
     private static final CommandCategory category = CommandCategory.TODO;

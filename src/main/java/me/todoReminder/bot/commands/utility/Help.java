@@ -41,7 +41,7 @@ public class Help extends Command {
         }
 
         if(command == null && commandCategory == null) {
-            eb.setTitle("ToDo & Reminder Help")
+            eb.setTitle("Todo & Reminder Help")
                     .setDescription("Here is all list of all my commands listed by category:")
                     .setFooter("Use "+ctx.getPrefix()+"help [commandName] for help with a specific command.");
 
@@ -60,7 +60,7 @@ public class Help extends Command {
             }
 
             eb.addField("Utility:", utilityC.substring(0, utilityC.length()-2), false);
-            eb.addField("ToDo:", todoC.substring(0, todoC.length()-2), false);
+            eb.addField("Todo:", todoC.substring(0, todoC.length()-2), false);
             eb.addField("Reminder:", reminderC.substring(0, reminderC.length()-2), false);
         }
         else if(command != null) {

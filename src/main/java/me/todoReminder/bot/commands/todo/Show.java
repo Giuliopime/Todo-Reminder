@@ -11,13 +11,13 @@ import java.util.List;
 
 public class Show extends Command {
     public static final String name = "show",
-            description = "Shows you the list of tasks of a ToDo list" +
+            description = "Shows you the list of Todos of a Todo list" +
                     "\n\nThe possible `(flags)` are:" +
-                    "\n`--c` shows all the completed tasks" +
+                    "\n`--c` shows all the completed Todos" +
                     "\n`--number` to select a list quickly" +
                     "\n\nExamples:" +
-                    "\n`t.show --1` shows all the tasks of the first ToDo list" +
-                    "\n`t.show --c --2` shows all the completed tasks of the second ToDo list",
+                    "\n`t.show --1` shows all the Todos of the first Todo list" +
+                    "\n`t.show --c --2` shows all the completed Todos of the second Todo list",
             usage = "(flags | See t.help show)";
     private static final CommandCategory category = CommandCategory.TODO;
     private static final boolean requiresArgs = false;

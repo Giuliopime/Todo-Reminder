@@ -8,10 +8,10 @@ import me.todoReminder.bot.core.database.DatabaseManager;
 
 public class Add extends Command {
     public static final String name = "add",
-            description = "Add a task to a ToDo list" +
-                    "\nIf you have multiple ToDo lists you can quickly select one with the flag `--number`" +
+            description = "Add a Todo to a Todo list" +
+                    "\nIf you have multiple Todo lists you can quickly select one with the flag `--number`" +
                     "\nExample: `t.add upload YT video --1`",
-            usage = "[task's text] (flags | See t.help add)";
+            usage = "[Todo's text] (flags | See t.help add)";
     private static final CommandCategory category = CommandCategory.TODO;
     private static final boolean requiresArgs = true;
     private static final String[] aliases = {"a"};

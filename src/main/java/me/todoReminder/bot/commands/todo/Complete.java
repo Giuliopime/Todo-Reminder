@@ -9,10 +9,10 @@ import me.todoReminder.bot.core.database.DatabaseManager;
 
 public class Complete extends Command {
     public static final String name = "complete",
-            description = "Mark a task as completed" +
-                    "\nIf you have multiple ToDo lists you can quickly select one with the flag `--number`" +
+            description = "Mark a Todo as completed" +
+                    "\nIf you have multiple Todo lists you can quickly select one with the flag `--number`" +
                     "\nExample: `t.complete upload YT --1`",
-            usage = "[task number / task text] (flags | See t.help complete)";
+            usage = "[Todo number / Todo text] (flags | See t.help complete)";
     private static final CommandCategory category = CommandCategory.TODO;
     private static final boolean requiresArgs = true;
     private static final String[] aliases = {"c"};

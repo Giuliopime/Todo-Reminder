@@ -8,10 +8,10 @@ import me.todoReminder.bot.core.database.DatabaseManager;
 
 public class Remove extends Command {
     public static final String name = "remove",
-            description = "Remove a task from a ToDo list" +
-                    "\nIf you have multiple ToDo lists you can quickly select one with the flag `--number`" +
+            description = "Remove a Todo from a Todo list" +
+                    "\nIf you have multiple Todo lists you can quickly select one with the flag `--number`" +
                     "\nExample: `t.remove upload YT --1`",
-            usage = "[task number / task text] (flags | See t.help remove)";
+            usage = "[Todo number / Todo text] (flags | See t.help remove)";
     private static final CommandCategory category = CommandCategory.TODO;
     private static final boolean requiresArgs = true;
     private static final String[] aliases = {"r"};

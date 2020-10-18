@@ -11,7 +11,7 @@ import java.util.List;
 
 public class New extends Command {
     public static final String name = "new",
-            description = "Create a new ToDo list",
+            description = "Create a new Todo list",
             usage = "[list name]";
     private static final CommandCategory category = CommandCategory.TODO;
     private static final boolean requiresArgs = true;
