@@ -28,7 +28,7 @@ public class Info extends Command {
                 .setDescription(Emojis.online+"Version: `Beta`\n" +
                         Emojis.online+"Library: `JDA`\n" +
                         Emojis.online+"Developer: `</> Giuliopime#4965`\n" +
-                        Emojis.online+"Servers: `"+jda.getGuilds()+"`\n");
+                        Emojis.online+"Servers: `"+jda.getGuilds().size()+"`\n");
         ctx.sendMessage(eb);
     }
 }
