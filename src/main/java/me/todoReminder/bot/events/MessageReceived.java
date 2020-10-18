@@ -30,11 +30,12 @@ public class MessageReceived {
 
     public static void execute(MessageReceivedEvent event) {
         if(event.getAuthor().isBot()) return;
-        if(!event.getGuild().getSelfMember().hasPermission(event.getTextChannel(), Permission.MESSAGE_WRITE)) return;
 
         String messageContent = event.getMessage().getContentRaw(),
                 userID = event.getAuthor().getId();
         boolean isFromGuild = event.isFromGuild();
+
+        if(isFromGuild && !event.getGuild().getSelfMember().hasPermission(event.getTextChannel(), Permission.MESSAGE_WRITE)) return;
         // Get the user data (all to-do lists and reminders) from the database
         UserSchema userData = DatabaseManager.getInstance().getUser(userID);
 
