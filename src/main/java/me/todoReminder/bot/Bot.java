@@ -64,12 +64,12 @@ public class Bot {
         log.info("Shutting down.\nReason: {}", reason);
         if(e != null) log.info("Error: ", e);
 
-        if(jda != null) jda.shutdown();
-
         DatabaseManager.getInstance().shutdown();
         CacheManager.getInstance().shutdown();
 
         ShortReminders.getInstance().shutdown();
         LongReminders.getInstance(jda).shutdown();
+
+        if(jda != null) jda.shutdown();
     }
 }
