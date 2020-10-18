@@ -41,14 +41,17 @@ Example: `t.help add`
 
 
 #### Reminder Commands
-To add a reminder use the following syntax:  
-`t.remindMe 1.12.2020 16:45 you should do something meaningful right now`  
+The format for the time of the reminder is `days hours minutes`: `d h m`  
 
-The bot will send you a DM the 1st of December at 16:45, the text of the DM will be `you should do something meaningful right now`.  
+Example:  
+`t.remindMe 1d 2h 1m you should do something meaningful right now`  
+The bot will send you a DM in 1 day 2 hours and 1 minute, the text of the DM will be `you should do something meaningful right now`.  
+  
+You don't need to specify the days/hours/minutes all the time, you can include only the ones you need, for example `1h 2m` for 1 hour and 2 minutes.  
   
 The possible `--flags` for this command are:
 - `--daily`: This will remind you something every day.  
-If I added that flag to the example above the bot would remind me every day at 16:45 starting from the 1st of December (simply by adding `--daily` at the end of the command).
+If I added that flag to the example above the bot would remind me every day at the calculated time (simply by adding `--daily` at the end of the command).
 - `--weekly`: Same concept as daily, but weekly :bonk:  
 
 | Command  |  Description | Example Usage |

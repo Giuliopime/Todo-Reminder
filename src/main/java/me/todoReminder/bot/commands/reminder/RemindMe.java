@@ -39,9 +39,9 @@ public class RemindMe extends Command {
     private static final boolean requiresArgs = true;
     private static final String[] aliases = {"rm"};
 
-    private static final Pattern DAYS = Pattern.compile("(\\d{1,2})d", Pattern.CASE_INSENSITIVE);
-    private static final Pattern HOURS = Pattern.compile("(\\d{1,2})h", Pattern.CASE_INSENSITIVE);
-    private static final Pattern MINUTES = Pattern.compile("(\\d{1,2})m", Pattern.CASE_INSENSITIVE);
+    private static final Pattern DAYS = Pattern.compile("(\\d{1,2}d)", Pattern.CASE_INSENSITIVE);
+    private static final Pattern HOURS = Pattern.compile("(\\d{1,2}h)", Pattern.CASE_INSENSITIVE);
+    private static final Pattern MINUTES = Pattern.compile("(\\d{1,2}m)", Pattern.CASE_INSENSITIVE);
 
     public RemindMe() {
         super(name, description, usage, category, requiresArgs, aliases, false);
@@ -67,18 +67,19 @@ public class RemindMe extends Command {
         int days = 0, hours = 0, minutes = 0;
 
         if(foundDays) {
-            days = Integer.parseInt(daysMatcher.group(1));
+            days = Integer.parseInt(daysMatcher.group(1).substring(0, daysMatcher.group(1).length() -1));
             reminder = reminder.replace(daysMatcher.group(1), "");
         }
         if(foundHours) {
-            hours = Integer.parseInt(hoursMatcher.group(1));
+            hours = Integer.parseInt(hoursMatcher.group(1).substring(0, hoursMatcher.group(1).length() -1));
             reminder = reminder.replace(hoursMatcher.group(1), "");
         }
         if(foundMinutes) {
-            minutes = Integer.parseInt(minutesMatcher.group(1));
+            minutes = Integer.parseInt(minutesMatcher.group(1).substring(0, minutesMatcher.group(1).length() -1));
             reminder = reminder.replace(minutesMatcher.group(1), "");
         }
 
+        reminder = reminder.trim();
         boolean daily = false, weekly = false;
 
         long reminderTime = System.currentTimeMillis() + (days * 86400000) + (hours * 3600000) + (minutes * 60000);
