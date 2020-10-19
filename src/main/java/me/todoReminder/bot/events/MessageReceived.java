@@ -170,7 +170,7 @@ public class MessageReceived {
                                 },
                                 e -> {
                                     message.delete().queue();
-                                    e.getMessage().delete().queue();
+                                    if(isFromGuild) e.getMessage().delete().queue();
                                     ctx.setListIndex(Integer.parseInt(e.getMessage().getContentRaw()) - 1);
                                     CommandHandler.runCommand(ctx);
                                 },
