@@ -43,7 +43,7 @@ public class Prefix extends Command {
                 return;
             }
 
-            DatabaseManager.getInstance().setPrefix(ctx.getUserID(), prefix);
+            DatabaseManager.getInstance().setPrefix(ctx.getEvent().getGuild().getId(), prefix);
             ctx.sendMessage(EmbedReplies.infoEmbed(true).setDescription("Prefix set to `"+prefix+"`."));
         }
     }
