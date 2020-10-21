@@ -1,6 +1,11 @@
 # Todo & Reminder
 A simple To Do &amp; Reminder Discord Bot made with JDA.  
 
+## Disclaimer
+The VPS I have at the moment is already used for some other personal projects and it isn't powerful enough to also host Todo & Reminder.  
+In case you are experienced in hosting Discord Bots you can self-host it (the bot requires mongoDB and Redis), but I won't provide any sort of assistance for that.  
+
+
 ## Useful links
 - [Invite the bot to your server](https://discord.com/oauth2/authorize?client_id=763067629023526954&scope=bot&permissions=289792)
 - [Support Server](https://discord.com/invite/pE4VfWF)
