@@ -18,7 +18,7 @@ public class CacheManager {
     private final Gson gson;
 
     private CacheManager() {
-        jedis = new Jedis("localhost", Integer.parseInt(Config.get("REDISPORT")));
+        jedis = new Jedis("todo-reminder-redis", Integer.parseInt(Config.get("REDISPORT")));
         gson = new Gson();
     }
 

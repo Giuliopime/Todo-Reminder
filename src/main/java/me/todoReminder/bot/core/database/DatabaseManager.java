@@ -27,7 +27,7 @@ public class DatabaseManager {
 
 
     private DatabaseManager() {
-        mongoClient = MongoClients.create();
+        mongoClient = MongoClients.create("mongodb://todo-reminder-mongodb:27017");
         datastore = Morphia.createDatastore(mongoClient, "todoReminderDB", MapperOptions.builder().storeEmpties(true).build());
         datastore.getMapper().mapPackage("me.todoReminder.bot.core.database.models");
         datastore.ensureIndexes();
