@@ -1,0 +1,34 @@
+version: "3.9"
+services:
+  todo-reminder:
+    build: .
+    container_name: "todo-reminder"
+    depends_on:
+      - todo-reminder-redis
+      - todo-reminder-mongodb
+    env_file:
+      - .env
+    networks:
+      - todo-reminder-network
+  todo-reminder-redis:
+    image: redis:6.2.4
+    container_name: "todo-reminder-redis"
+    restart: always
+    command: redis-server
+    networks:
+      - todo-reminder-network
+  todo-reminder-mongodb:
+    image: mongo:4.4.6
+    container_name: "todo-reminder-mongodb"
+    restart: always
+    volumes:
+      - db-data:/data/db # This is the default location for mongodb data storing
+    networks:
+      - todo-reminder-network
+
+volumes:
+  db-data:
+
+networks:
+  todo-reminder-network:
+    name: todo-reminder-network
