@@ -11,6 +11,7 @@ WORKDIR /opt/todo-reminder
 # Copy the shadowjar in the current workdir
 COPY --from=builder ./etc/todo-reminder/build/libs/ .
 # Copy the .env file too
+# SHOULD BE REMOVED IF IMAGE GETS PUBLISHED
 COPY --from=builder ./etc/todo-reminder/.env .
 # Entrypoint is used instead of CMD because the image is not intended to run another executable instead of the jar
 ENTRYPOINT java \
